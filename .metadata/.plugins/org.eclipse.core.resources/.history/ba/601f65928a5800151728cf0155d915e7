@@ -1,5 +1,0 @@
-import java.io.*;
-
-public class NewClass {
-	System.out.println("Hello world");
-}

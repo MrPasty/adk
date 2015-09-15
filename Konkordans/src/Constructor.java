@@ -1,15 +1,14 @@
-import java.io.*;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
 
-public class Main {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+public class Constructor {
 	
 	public void construct() {
 		//tell the position of the word
@@ -25,15 +24,16 @@ public class Main {
 			
 			String line;
 			String word = null;
-			int i = 0;
+			int startIndex = 0;
 			while ((line = br.readLine()) != null) {
 				String[] stringArray = line.split(" ");
 				if (stringArray[0] != word) {
 					word = stringArray[0];
-					indexWriter.append(word + " " + i);
+					indexWriter.append(word + " " + startIndex);
+					indexWriter.newLine();
 				}
 				posWriter.write(stringArray[1].getBytes("ISO-8859-1"));
-				i++;
+				startIndex++;
 			}
 			indexWriter.close();
 			posWriter.close();
@@ -42,18 +42,4 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * @param 
-	 */
-	public void searchFile() {	
-		try {
-			RandomAccessFile file = new RandomAccessFile("/info/adk15/labb1/korpus", "r");
-			file.seek(0);
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
-

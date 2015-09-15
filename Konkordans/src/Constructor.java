@@ -13,8 +13,8 @@ public class Constructor {
 	public void construct() {
 		//tell the position of the word
 		try {
-			File index = File.createTempFile("/var/tmp/index", "tmp");
-			File pos = File.createTempFile("/var/tmp/pos", "tmp");
+			File index = File.createTempFile("index", "tmp", new File("/var/tmp"));
+			System.out.println(index.getAbsolutePath());
 			File tokens = new File("/var/tmp/ut");
 			
 			BufferedWriter indexWriter = new BufferedWriter(new FileWriter(index));
@@ -27,7 +27,7 @@ public class Constructor {
 			int startIndex = 0;
 			while ((line = br.readLine()) != null) {
 				String[] stringArray = line.split(" ");
-				if (stringArray[0] != word) {
+				if (!stringArray[0].equals(word)) {
 					word = stringArray[0];
 					indexWriter.append(word + " " + startIndex);
 					indexWriter.newLine();
@@ -38,6 +38,7 @@ public class Constructor {
 			indexWriter.close();
 			posWriter.close();
 			br.close();
+			
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

@@ -31,7 +31,11 @@ public class Constructor {
 			while ((line = br.readLine()) != null) {
 				String[] stringArray = line.split(" ");
 				if (stringArray[0] != word) {
-					indexArray[wordIndex] = stringArray[0].substring(0, 2);
+					if (stringArray[0].length() < 3) {
+						indexArray[wordIndex] = stringArray[0];
+					} else {
+						indexArray[wordIndex] = stringArray[0].substring(0, 2);
+					}
 					wordIndex++;
 					indexWriter.append(stringArray[0] + " " + occurenceIndex);
 					indexWriter.newLine();

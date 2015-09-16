@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 public class Constructor {
 	
-	private String[] indexArray;
+	private int[] indexArray;
 	
 	public void construct() {
 		//tell the position of the word
@@ -26,18 +26,16 @@ public class Constructor {
 			
 			String line;
 			String word = null;
-			int wordIndex = 0;
+			int indexLine = 0;
 			int occurenceIndex = 0;
-			while ((line = br.readLine()) != null) {
-				String[] stringArray = line.split(" ");
-				if (stringArray[0] != word) {
-					if (stringArray[0].length() < 3) {
-						indexArray[wordIndex] = stringArray[0];
-					} else {
-						indexArray[wordIndex] = stringArray[0].substring(0, 2);
-					}
-					wordIndex++;
+			while ((line = br.readLine()) != null) {// while not end of file
+				String[] stringArray = line.split(" ");//split line, create array with 2 elements
+				if (!stringArray[0].equals(word)) {
+					if (!word.substring(0, 2).equals(stringArray[0].substring(0, 2)))
+						indexArray[stringArray[0].substring(0, 2).hashCode()] = indexLine;
+					word = stringArray[0];
 					indexWriter.append(stringArray[0] + " " + occurenceIndex);
+					indexLine++;
 					indexWriter.newLine();
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));

@@ -10,6 +10,8 @@ import java.io.OutputStream;
 
 public class Constructor {
 	
+	private int[] indexArray;
+	
 	public void construct() {
 		//tell the position of the word
 		try {
@@ -27,9 +29,9 @@ public class Constructor {
 			int startIndex = 0;
 			while ((line = br.readLine()) != null) {
 				String[] stringArray = line.split(" ");
-				if (!stringArray[0].equals(word)) {
-					word = stringArray[0];
-					indexWriter.append(word + " " + startIndex);
+				if (stringArray[0] != word) {
+					String head = stringArray[0].substring(0, 2);
+					indexWriter.append(stringArray[0].substring(2) + " " + startIndex);
 					indexWriter.newLine();
 				}
 				posWriter.write(stringArray[1].getBytes("ISO-8859-1"));

@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 public class Constructor {
 	
-	private int[] indexArray;
+	private String[] indexArray;
 	
 	public void construct() {
 		//tell the position of the word
@@ -20,25 +20,27 @@ public class Constructor {
 			File tokens = new File("/var/tmp/ut");
 			
 			BufferedWriter indexWriter = new BufferedWriter(new FileWriter(index));
-			OutputStream posWriter = new FileOutputStream("/var/tmp/pos");
+			OutputStream occurenceWriter = new FileOutputStream("/var/tmp/occurences");
 			FileReader fr = new FileReader(tokens);
 			BufferedReader br = new BufferedReader(fr);
 			
 			String line;
 			String word = null;
-			int startIndex = 0;
+			int wordIndex = 0;
+			int occurenceIndex = 0;
 			while ((line = br.readLine()) != null) {
 				String[] stringArray = line.split(" ");
 				if (stringArray[0] != word) {
-					String head = stringArray[0].substring(0, 2);
-					indexWriter.append(stringArray[0].substring(2) + " " + startIndex);
+					indexArray[wordIndex] = stringArray[0].substring(0, 2);
+					wordIndex++;
+					indexWriter.append(stringArray[0] + " " + occurenceIndex);
 					indexWriter.newLine();
 				}
-				posWriter.write(stringArray[1].getBytes("ISO-8859-1"));
-				startIndex++;
+				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));
+				occurenceIndex++;
 			}
 			indexWriter.close();
-			posWriter.close();
+			occurenceWriter.close();
 			br.close();
 			
 		} catch(IOException e) {

@@ -15,7 +15,7 @@ public class Constructor {
 	private int[] indexArray;
 	
 	public Constructor () throws UnsupportedEncodingException {
-		size = "ööö".getBytes("ISO-8859-1").hashCode();
+		size = hashFunction("ööö");
 		System.out.println(size);
 		indexArray = new int[size];
 	}
@@ -44,7 +44,7 @@ public class Constructor {
 						stringArray[0] = stringArray[0] + "  "; //add trailing whitespace if 1 or 2 char
 					if (!word.substring(0, 2).equals(stringArray[0].substring(0, 2))) {
 						try {
-							indexArray[stringArray[0].substring(0, 2).hashCode()] = indexLine;
+							indexArray[hashFunction(stringArray[0].substring(0, 2))] = indexLine;
 						} catch (ArrayIndexOutOfBoundsException e) {
 							System.out.println(e.toString() + " " + stringArray[0].substring(0, 2));
 						}
@@ -65,5 +65,14 @@ public class Constructor {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private int hashFunction (String s) {
+		char[] ca = s.toCharArray();
+		int res = 0;
+		for (char c : ca) {
+			res = res + c;
+		}
+		return res;
 	}
 }

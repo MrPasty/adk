@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 
@@ -15,7 +16,7 @@ public class Constructor {
 	private int[] indexArray;
 
 	public Constructor () {
-		size = hashFunction("ööö");
+		size = Hasher.hash("ööö");
 		System.out.println(size);
 		indexArray = new int[size];
 	}
@@ -24,7 +25,7 @@ public class Constructor {
 		//do everything
 		System.out.println("indexArray size: " + size);
 		try {
-			File index = File.createTempFile("index", "tmp", new File("/var/tmp"));
+			File index = new File("/var/tmp/index");
 			FileInputStream tokens = new FileInputStream("/var/tmp/mdut");
 			
 			BufferedWriter indexWriter = new BufferedWriter(new FileWriter(index));
@@ -44,7 +45,7 @@ public class Constructor {
 						stringArray[0] = stringArray[0] + "  "; //add trailing whitespace if 1 or 2 char
 					if (!word.substring(0, 2).equals(stringArray[0].substring(0, 2))) {
 						try {
-							indexArray[hashFunction(stringArray[0].substring(0, 2))] = indexLine;
+							indexArray[Hasher.hash(stringArray[0].substring(0, 2))] = indexLine;
 						} catch (ArrayIndexOutOfBoundsException e) {
 							System.out.println(e.toString() + " " + stringArray[0].substring(0, 2));
 						}
@@ -61,18 +62,12 @@ public class Constructor {
 			indexWriter.close();
 			occurenceWriter.close();
 			br.close();
+			ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
+			outputStream.writeObject(indexArray);
+			outputStream.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	private int hashFunction (String s) {
-		char[] ca = s.toCharArray();
-		int res = 0;
-		for (char c : ca) {
-			res = res + c;
-		}
-		return res;
 	}
 }

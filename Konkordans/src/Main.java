@@ -11,21 +11,13 @@ public class Main {
 		Constructor c = new Constructor();
 		c.construct();
 		final long endTime = System.currentTimeMillis();
-		System.out.println("Total execution time: " + ((endTime - startTime) / 1000) + " sekunder biatch");
-
-	}
-
-	/**
-	 * @param 
-	 */
-	public void searchFile() {	
-		try {
-			RandomAccessFile file = new RandomAccessFile("/info/adk15/labb1/korpus", "r");
-			file.seek(0);
-			file.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		Long constructionTime = endTime - startTime;
+		System.out.println("Total construction time: " + constructionTime  / 1000 + " seconds biatch");
+		if (args.length > 0) {
+			Finder finder = new Finder ();
+			finder.search(args[0]);
 		}
+		System.out.println("Search time: " + (System.currentTimeMillis() - constructionTime) / 1000 + " seconds");
 	}
 }
 

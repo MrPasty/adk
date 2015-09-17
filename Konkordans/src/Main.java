@@ -6,7 +6,7 @@ public class Main {
 	 * @param args
 	 * @throws UnsupportedEncodingException 
 	 */
-	public static void main(String[] args) throws UnsupportedEncodingException {
+	public static void main(String[] args) {
 		final long startTime = System.currentTimeMillis();
 		Constructor c = new Constructor();
 		c.construct();

@@ -1,10 +1,12 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
@@ -14,8 +16,8 @@ public class Constructor {
 	private int size;
 	private int[] indexArray;
 	
-	public Constructor () throws UnsupportedEncodingException {
-		size = "ööö".getBytes("ISO-8859-1").hashCode();
+	public Constructor () {
+		size = "ööö".hashCode();
 		System.out.println(size);
 		indexArray = new int[size];
 	}
@@ -25,12 +27,12 @@ public class Constructor {
 		System.out.println("indexArray size: " + size);
 		try {
 			File index = File.createTempFile("index", "tmp", new File("/var/tmp"));
-			File tokens = new File("/var/tmp/mdut");
+			FileInputStream tokens = new FileInputStream("/var/tmp/mdut");
 			
 			BufferedWriter indexWriter = new BufferedWriter(new FileWriter(index));
 			OutputStream occurenceWriter = new FileOutputStream("/var/tmp/occurences");
-			FileReader fr = new FileReader(tokens);
-			BufferedReader br = new BufferedReader(fr);
+			InputStreamReader ir = new InputStreamReader(tokens, "ISO-8859-1");
+			BufferedReader br = new BufferedReader(ir);
 			
 			String line;
 			String word = "   ";

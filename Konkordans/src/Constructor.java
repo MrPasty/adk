@@ -39,7 +39,6 @@ public class Constructor {
 			int occurenceIndex = 0;
 			while ((line = br.readLine()) != null) {// while not end of file
 				String[] stringArray = line.split(" ");//split line, create array with 2 elements
-				
 				if (!stringArray[0].equals(word)) {
 					if(stringArray[0].length() < 3)
 						stringArray[0] = stringArray[0] + "  "; //add trailing whitespace if 1 or 2 char
@@ -62,9 +61,9 @@ public class Constructor {
 			indexWriter.close();
 			occurenceWriter.close();
 			br.close();
-			ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
-			outputStream.writeObject(indexArray);
-			outputStream.close();
+			ObjectOutputStream arrayFileStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
+			arrayFileStream.writeObject(indexArray);
+			arrayFileStream.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

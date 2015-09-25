@@ -1,5 +1,8 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.RandomAccessFile;
@@ -33,8 +36,9 @@ public class Finder {
 
 	/**
 	 * @param 
+	 * @throws FileNotFoundException 
 	 */
-	public void search(String args) {
+	public void search(String args) throws FileNotFoundException {
 		term = args;
 		int begin = Hasher.hash (args.substring(0, 2));
 		int end = 0;
@@ -44,6 +48,7 @@ public class Finder {
 				break;
 			}
 		}
+		BufferedReader br = new BufferedReader(new FileReader(index));
 		binarySearch(begin, end);
 			try {
 				corpus.seek(0);
@@ -58,7 +63,12 @@ public class Finder {
 		int pos;
 		while (end - begin > 1000) {
 			pos = (begin + end) / 2;
-//			if (index.seek(pos) <= )
+			int comp = index.(pos).compareTo(term);
+			if (comp < 0)
+				binarySearch(begin, pos);
+			else if (comp > 0)
+				binarySearch(pos, end);
+			return index.seek(pos);
 		}
 	}
 }

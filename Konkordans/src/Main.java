@@ -15,9 +15,13 @@ public class Main {
 		System.out.println("Total construction time: " + constructionTime  / 1000 + " seconds biatch");
 		if (args.length > 0) {
 			Finder finder = new Finder ();
-			finder.search(args[0]);
+			try {
+				finder.search(args[0]);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		System.out.println("Search time: " + (System.currentTimeMillis() - constructionTime) / 1000 + " seconds");
 	}
 }
-

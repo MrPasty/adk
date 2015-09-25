@@ -52,7 +52,7 @@ public class Constructor {
 					}
 					word = stringArray[0];
 					stump = nextStump;
-					indexWriter.write((word + " " + occurenceOffset).getBytes("ISO-8859-1"));
+					indexWriter.write((word + " " + occurenceOffset).getBytes("UTF-8"));
 					indexOffset++;
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));

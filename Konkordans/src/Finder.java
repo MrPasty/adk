@@ -1,8 +1,5 @@
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.RandomAccessFile;
@@ -13,13 +10,13 @@ public class Finder {
 	RandomAccessFile corpus;
 	RandomAccessFile index;
 	private ObjectInputStream inputStream;
-	private int[] arrayIndex;
+	private int[] indexArray;
 	private String term;
 	
 	public Finder () {
 		try {
-			inputStream = new ObjectInputStream(new FileInputStream("arrayIndexFile"));
-			arrayIndex = (int[])inputStream.readObject();
+			inputStream = new ObjectInputStream(new FileInputStream("indexArrayFile"));
+			indexArray = (int[])inputStream.readObject();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -42,14 +39,19 @@ public class Finder {
 		term = args;
 		int begin = Hasher.hash (args.substring(0, 2));
 		int end = 0;
-		for (int i = begin; i < arrayIndex.length; i++) {
-			if (arrayIndex[i] != 0) {
+		for (int i = begin; i < indexArray.length; i++) {
+			if (indexArray[i] != 0) {
 				end = i;
 				break;
 			}
 		}
-		BufferedReader br = new BufferedReader(new FileReader(index));
-		binarySearch(begin, end);
+		index = new RandomAccessFile("/var/tmp/index", "r");
+		try {
+			binarySearch(begin, end);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 			try {
 				corpus.seek(0);
 				corpus.close();
@@ -59,18 +61,17 @@ public class Finder {
 			}
 	}
 	
-	private void binarySearch (int begin, int end) {
+	private String binarySearch (int begin, int end) throws IOException {
 		int pos;
 		while (end - begin > 1000) {
 			pos = (begin + end) / 2;
 			index.seek(pos);
-			String pick = index.readLine();
-			int comp = 
+			int comp = index.readUTF().compareTo(term);
 			if (comp < 0)
 				binarySearch(begin, pos);
 			else if (comp > 0)
 				binarySearch(pos, end);
-			return index.seek(pos);
 		}
+		return index.readUTF();
 	}
 }

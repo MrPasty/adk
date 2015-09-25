@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
@@ -28,7 +26,7 @@ public class Constructor {
 			File index = new File("/var/tmp/index");
 			FileInputStream tokens = new FileInputStream("/var/tmp/mdut");
 			
-			BufferedWriter indexWriter = new BufferedWriter(new FileWriter(index));
+			OutputStream indexWriter = new FileOutputStream(index);
 			OutputStream occurenceWriter = new FileOutputStream("/var/tmp/occurences");
 			InputStreamReader ir = new InputStreamReader(tokens, "ISO-8859-1");
 			BufferedReader br = new BufferedReader(ir);
@@ -37,8 +35,8 @@ public class Constructor {
 			String word = "   ";
 			String stump = word;
 			String nextStump;
-			int indexLine = 0;
-			int occurenceIndex = 0;
+			int indexOffset = 0;
+			int occurenceOffset = 0;
 			while ((line = br.readLine()) != null) {// while not end of file
 				String[] stringArray = line.split(" ");//split line, create array with 2 elements
 				if(!stringArray[0].equals(word)) {
@@ -47,20 +45,19 @@ public class Constructor {
 						nextStump = nextStump.substring(0, 2);
 					if (!stump.equals(nextStump)) {
 						try {
-							indexArray[Hasher.hash(nextStump)] = indexLine;
+							indexArray[Hasher.hash(nextStump)] = indexOffset;
 						} catch (ArrayIndexOutOfBoundsException e) {
 							System.out.println(e.toString() + " " + nextStump);
 						}
 					}
 					word = stringArray[0];
 					stump = nextStump;
-					indexWriter.append(word + " " + occurenceIndex);
-					indexLine++;
-					indexWriter.newLine();
+					indexWriter.write((word + " " + occurenceOffset).getBytes("ISO-8859-1"));
+					indexOffset++;
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));
 				//System.out.println(stringArray[1].getBytes("ISO-8859-1"));
-				occurenceIndex++;
+				occurenceOffset++;
 			}
 			indexWriter.close();
 			occurenceWriter.close();

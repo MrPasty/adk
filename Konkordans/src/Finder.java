@@ -11,7 +11,7 @@ public class Finder {
 	RandomAccessFile index;
 	private ObjectInputStream inputStream;
 	private int[] indexArray;
-	private String term;
+	private String w;
 	
 	public Finder () {
 		try {
@@ -36,15 +36,19 @@ public class Finder {
 	 * @throws FileNotFoundException 
 	 */
 	public void search(String args) throws FileNotFoundException {
-		term = args;
-		int begin = Hasher.hash (args.substring(0, 2));
+		w = args;
+		int begin = Hasher.hash (args.substring(0, 3));
 		int end = 0;
-		for (int i = begin; i < indexArray.length; i++) {
+		for (int i = begin + 1; i < indexArray.length; i++) {
 			if (indexArray[i] != 0) {
 				end = i;
 				break;
 			}
 		}
+		begin = indexArray[begin];
+		System.out.println("begin: " + begin);
+		end = indexArray[end];
+		System.out.println("end: " + end);
 		index = new RandomAccessFile("/var/tmp/index", "r");
 		try {
 			binarySearch(begin, end);
@@ -61,17 +65,18 @@ public class Finder {
 			}
 	}
 	
-	private int binarySearch (int begin, int end) throws IOException {
-		int pos = -1;
-		while (end - begin > 1000) {
-			pos = (begin + end) / 2;
-			index.seek(pos);
-			int comp = index.readUTF().compareTo(term);
+	private int binarySearch (int i, int j) throws IOException {
+		int m = i;
+		while (j - i > 1000) {
+			m = (i + j) / 2;
+			index.seek(m);
+			int comp = index.readLine().compareTo(w);
 			if (comp < 0)
-				binarySearch(begin, pos);
+				return binarySearch(i, m);
 			else if (comp > 0)
-				binarySearch(pos, end);
+				return binarySearch(m, j);
 		}
-		return pos;
+		System.out.println(index.readLine());
+		return m;
 	}
 }

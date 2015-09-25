@@ -15,13 +15,10 @@ public class Constructor {
 
 	public Constructor () {
 		size = Hasher.hash("ööö");
-		System.out.println(size);
-		indexArray = new int[size];
+		indexArray = new int[size+1];
 	}
 	
 	public void construct() {
-		//do everything
-		System.out.println("indexArray size: " + size);
 		try {
 			File index = new File("/var/tmp/index");
 			FileInputStream tokens = new FileInputStream("/var/tmp/mdut");
@@ -42,7 +39,7 @@ public class Constructor {
 				if(!stringArray[0].equals(word)) {
 					nextStump = stringArray[0];
 					if(nextStump.length() > 2)
-						nextStump = nextStump.substring(0, 2);
+						nextStump = nextStump.substring(0, 3);
 					if (!stump.equals(nextStump)) {
 						try {
 							indexArray[Hasher.hash(nextStump)] = indexOffset;
@@ -52,7 +49,7 @@ public class Constructor {
 					}
 					word = stringArray[0];
 					stump = nextStump;
-					indexWriter.write((word + " " + occurenceOffset).getBytes("UTF-8"));
+					indexWriter.write((word + " " + occurenceOffset + '\u005Cn').getBytes("UTF-8"));
 					indexOffset++;
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));

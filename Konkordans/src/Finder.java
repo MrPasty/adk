@@ -61,8 +61,8 @@ public class Finder {
 			}
 	}
 	
-	private String binarySearch (int begin, int end) throws IOException {
-		int pos;
+	private int binarySearch (int begin, int end) throws IOException {
+		int pos = -1;
 		while (end - begin > 1000) {
 			pos = (begin + end) / 2;
 			index.seek(pos);
@@ -72,6 +72,6 @@ public class Finder {
 			else if (comp > 0)
 				binarySearch(pos, end);
 		}
-		return index.readUTF();
+		return pos;
 	}
 }

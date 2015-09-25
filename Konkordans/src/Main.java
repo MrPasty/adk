@@ -8,11 +8,6 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		final long startTime = System.currentTimeMillis();
-		Constructor c = new Constructor();
-		c.construct();
-		final long endTime = System.currentTimeMillis();
-		Long constructionTime = endTime - startTime;
-		System.out.println("Total construction time: " + constructionTime  / 1000 + " seconds biatch");
 		if (args.length > 0) {
 			Finder finder = new Finder ();
 			try {
@@ -21,7 +16,11 @@ public class Main {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			System.out.println("Search time: " + (System.currentTimeMillis() - startTime) / 1000 + " seconds");
+		} else {
+			Constructor c = new Constructor();
+			c.construct();
+			System.out.println("Total construction time: " + (System.currentTimeMillis() - startTime)  / 1000 + " seconds biatch");
 		}
-		System.out.println("Search time: " + (System.currentTimeMillis() - constructionTime) / 1000 + " seconds");
 	}
 }

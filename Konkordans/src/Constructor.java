@@ -35,24 +35,26 @@ public class Constructor {
 			
 			String line;
 			String word = "   ";
-			String tempWord;
+			String stump = word;
+			String nextStump;
 			int indexLine = 0;
 			int occurenceIndex = 0;
 			while ((line = br.readLine()) != null) {// while not end of file
 				String[] stringArray = line.split(" ");//split line, create array with 2 elements
-				tempWord = stringArray[0];
-				if (!stringArray[0].equals(word)) {
-					if(stringArray[0].length() < 3)
-						tempWord = stringArray[0] + "  "; //add trailing whitespace if 1 or 2 char
-					if (!word.substring(0, 2).equals(tempWord.substring(0, 2))) {
+				if(!stringArray[0].equals(word)) {
+					nextStump = stringArray[0];
+					if(nextStump.length() > 2)
+						nextStump = nextStump.substring(0, 2);
+					if (!stump.equals(nextStump)) {
 						try {
-							indexArray[Hasher.hash(tempWord.substring(0, 2))] = indexLine;
+							indexArray[Hasher.hash(nextStump)] = indexLine;
 						} catch (ArrayIndexOutOfBoundsException e) {
-							System.out.println(e.toString() + " " + stringArray[0].substring(0, 2));
+							System.out.println(e.toString() + " " + nextStump);
 						}
 					}
 					word = stringArray[0];
-					indexWriter.append(stringArray[0] + " " + occurenceIndex);
+					stump = nextStump;
+					indexWriter.append(word + " " + occurenceIndex);
 					indexLine++;
 					indexWriter.newLine();
 				}

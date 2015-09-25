@@ -11,7 +11,7 @@ import java.io.RandomAccessFile;
 public class Finder {
 
 	RandomAccessFile corpus;
-	File index;
+	RandomAccessFile index;
 	private ObjectInputStream inputStream;
 	private int[] arrayIndex;
 	private String term;
@@ -63,7 +63,9 @@ public class Finder {
 		int pos;
 		while (end - begin > 1000) {
 			pos = (begin + end) / 2;
-			int comp = index.(pos).compareTo(term);
+			index.seek(pos);
+			String pick = index.readLine();
+			int comp = 
 			if (comp < 0)
 				binarySearch(begin, pos);
 			else if (comp > 0)

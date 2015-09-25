@@ -38,7 +38,7 @@ public class Finder {
 	public void search(String args) throws FileNotFoundException {
 		w = args;
 		int begin = Hasher.hash (args.substring(0, 3));
-		int end = 0;
+		int end = begin;
 		for (int i = begin + 1; i < indexArray.length; i++) {
 			if (indexArray[i] != 0) {
 				end = i;
@@ -57,7 +57,8 @@ public class Finder {
 			e1.printStackTrace();
 		}
 			try {
-				corpus.seek(0);
+				corpus.seek(binarySearch(begin, end));
+				corpus.readLine();
 				corpus.close();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -71,6 +72,7 @@ public class Finder {
 			m = (i + j) / 2;
 			index.seek(m);
 			int comp = index.readLine().compareTo(w);
+			System.out.println(comp);
 			if (comp < 0)
 				return binarySearch(i, m);
 			else if (comp > 0)

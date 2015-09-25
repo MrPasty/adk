@@ -47,9 +47,12 @@ public class Constructor {
 							System.out.println(e.toString() + " " + nextStump);
 						}
 					}
+					if (indexOffset == 34633){
+						System.out.println(indexOffset + nextStump);
+					}
 					word = stringArray[0];
 					stump = nextStump;
-					indexWriter.write((word + " " + occurenceOffset + '\u005Cn').getBytes("UTF-8"));
+					indexWriter.write((word + " " + occurenceOffset + "\n").getBytes("ISO-8859-1"));
 					indexOffset++;
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));

@@ -12,10 +12,11 @@ public class Constructor {
 	
 	private int size;
 	private int[] indexArray;
+	private int[] endArray;
 
 	public Constructor () {
 		size = Hasher.hash("ööö");
-		indexArray = new int[size+1];
+		indexArray = endArray = new int[size+1];
 	}
 	
 	public void construct() {
@@ -32,6 +33,7 @@ public class Constructor {
 			String word = "   ";
 			String stump = word;
 			String nextStump;
+			int lastHash = 0;
 			int indexOffset = 0;
 			int occurenceOffset = 0;
 			while ((line = br.readLine()) != null) {// while not end of file
@@ -42,13 +44,13 @@ public class Constructor {
 						nextStump = nextStump.substring(0, 3);
 					if (!stump.equals(nextStump)) {
 						try {
-							indexArray[Hasher.hash(nextStump)] = indexOffset;
+							int hash = Hasher.hash(nextStump);
+							indexArray[hash] = indexOffset;
+							endArray[lastHash] = indexOffset;
+							lastHash = hash;
 						} catch (ArrayIndexOutOfBoundsException e) {
 							System.out.println(e.toString() + " " + nextStump);
 						}
-					}
-					if (indexOffset == 34633){
-						System.out.println(indexOffset + nextStump);
 					}
 					word = stringArray[0];
 					stump = nextStump;
@@ -62,9 +64,12 @@ public class Constructor {
 			indexWriter.close();
 			occurenceWriter.close();
 			br.close();
-			ObjectOutputStream arrayFileStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
-			arrayFileStream.writeObject(indexArray);
-			arrayFileStream.close();
+			ObjectOutputStream indexArrayFileStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
+			indexArrayFileStream.writeObject(indexArrayFileStream);
+			indexArrayFileStream.close();
+			ObjectOutputStream endArrayFileStream = new ObjectOutputStream(new FileOutputStream("endArrayFile"));
+			endArrayFileStream.writeObject(endArrayFileStream);
+			endArrayFileStream.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

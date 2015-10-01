@@ -10,13 +10,17 @@ public class Finder {
 	RandomAccessFile corpus;
 	RandomAccessFile index;
 	private ObjectInputStream inputStream;
+	private ObjectInputStream endStream;
 	private int[] indexArray;
+	private int[] endArray;
 	private String w;
 	
 	public Finder () {
 		try {
 			inputStream = new ObjectInputStream(new FileInputStream("indexArrayFile"));
 			indexArray = (int[])inputStream.readObject();
+			endStream = new ObjectInputStream(new FileInputStream("endArrayFile"));
+			endArray = (int[])endStream.readObject();
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -37,17 +41,10 @@ public class Finder {
 	 */
 	public void search(String args) throws FileNotFoundException {
 		w = args;
-		int begin = Hasher.hash (args.substring(0, 3));
-		int end = begin;
-		for (int i = begin + 1; i < indexArray.length; i++) {
-			if (indexArray[i] != 0) {
-				end = i;
-				break;
-			}
-		}
-		begin = indexArray[begin];
+		int hash = Hasher.hash (args.substring(0, 3));
+		int begin = indexArray[hash];
+		int end = endArray[hash];
 		System.out.println("begin: " + begin);
-		end = indexArray[end];
 		System.out.println("end: " + end);
 		index = new RandomAccessFile("/var/tmp/index", "r");
 		try {

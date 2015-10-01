@@ -16,7 +16,8 @@ public class Constructor {
 
 	public Constructor () {
 		size = Hasher.hash("ööö");
-		indexArray = endArray = new int[size+1];
+		indexArray = new int[size+1];
+		endArray = new int[size+1];
 	}
 	
 	public void construct() {
@@ -54,7 +55,8 @@ public class Constructor {
 					}
 					word = stringArray[0];
 					stump = nextStump;
-					indexWriter.write((word + " " + occurenceOffset + "\n").getBytes("ISO-8859-1"));
+					//TODO: Create consistent byte array size
+					indexWriter.write((word + " " + occurenceOffset).getBytes("ISO-8859-1"));
 					indexOffset++;
 				}
 				occurenceWriter.write(stringArray[1].getBytes("ISO-8859-1"));
@@ -65,10 +67,10 @@ public class Constructor {
 			occurenceWriter.close();
 			br.close();
 			ObjectOutputStream indexArrayFileStream = new ObjectOutputStream(new FileOutputStream("indexArrayFile"));
-			indexArrayFileStream.writeObject(indexArrayFileStream);
+			indexArrayFileStream.writeObject(indexArray);
 			indexArrayFileStream.close();
 			ObjectOutputStream endArrayFileStream = new ObjectOutputStream(new FileOutputStream("endArrayFile"));
-			endArrayFileStream.writeObject(endArrayFileStream);
+			endArrayFileStream.writeObject(endArray);
 			endArrayFileStream.close();
 			
 		} catch (IOException e) {

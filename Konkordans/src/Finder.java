@@ -64,18 +64,22 @@ public class Finder {
 	}
 	
 	private int binarySearch (int i, int j) throws IOException {
+		index.seek(i);
+		System.out.println("i: " + index.readByte());
+		index.seek(j);
+		System.out.println("j: " + index.readByte());
 		int m = i;
-		while (j - i > 1000) {
+		while (j - i > 10) {
 			m = (i + j) / 2;
 			index.seek(m);
 			int comp = index.readLine().compareTo(w);
-			System.out.println(comp);
+			System.out.println("comp: " + comp);
 			if (comp < 0)
 				return binarySearch(i, m);
 			else if (comp > 0)
 				return binarySearch(m, j);
 		}
-		System.out.println(index.readLine());
+		System.out.println("line: " + index.readByte());
 		return m;
 	}
 }

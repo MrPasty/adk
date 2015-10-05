@@ -15,31 +15,19 @@ public class Finder {
 	private int[] endArray;
 	private String w;
 	
-	public Finder () {
-		try {
+	public Finder () throws FileNotFoundException, IOException, ClassNotFoundException {
 			inputStream = new ObjectInputStream(new FileInputStream("indexArrayFile"));
 			indexArray = (int[])inputStream.readObject();
 			endStream = new ObjectInputStream(new FileInputStream("endArrayFile"));
 			endArray = (int[])endStream.readObject();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-		corpus = new RandomAccessFile("/info/adk15/labb1/korpus", "r");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			corpus = new RandomAccessFile("/info/adk15/labb1/korpus", "r");
 	}
 
 	/**
 	 * @param 
-	 * @throws FileNotFoundException 
+	 * @throws IOException 
 	 */
-	public void search(String args) throws FileNotFoundException {
+	public void search(String args) throws IOException {
 		w = args;
 		int hash = Hasher.hash (args.substring(0, 3));
 		int begin = indexArray[hash];
@@ -47,20 +35,10 @@ public class Finder {
 		System.out.println("begin: " + begin);
 		System.out.println("end: " + end);
 		index = new RandomAccessFile("/var/tmp/index", "r");
-		try {
-			binarySearch(begin, end);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-			try {
-				corpus.seek(binarySearch(begin, end));
-				corpus.readLine();
-				corpus.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		binarySearch(begin, end);
+		corpus.seek(binarySearch(begin, end));
+		corpus.readLine();
+		corpus.close();
 	}
 	
 	private int binarySearch (int i, int j) throws IOException {

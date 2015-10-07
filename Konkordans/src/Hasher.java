@@ -1,7 +1,7 @@
 public class Hasher {
 
 	private static String alph = " abcdefghijklmnopqrstuvwxyzäåö";
-	private static int[] m = {1, 30, 900}; // number of characters power of 0,1,2
+	private static int[] m = {900, 30, 1}; // number of characters power of 0,1,2
 	
 	public static int hash (String s) {
 		char[] ca = s.toCharArray();

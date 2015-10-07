@@ -12,6 +12,7 @@ public class Main {
 				if (args.length > 0) {
 					Finder finder = new Finder ();
 					finder.search(args[0]);
+					System.out.println("Search time: " + (System.currentTimeMillis() - startTime) / 1000 + " seconds");
 				} else {
 					FileMaker c = new FileMaker();
 					c.setup();
@@ -20,7 +21,6 @@ public class Main {
 			} catch (ClassNotFoundException | IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println("Search time: " + (System.currentTimeMillis() - startTime) / 1000 + " seconds");
 		
 	}
 }

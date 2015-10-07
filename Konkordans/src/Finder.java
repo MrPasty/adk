@@ -20,7 +20,7 @@ public class Finder {
 			indexArray = (int[])inputStream.readObject();
 			endStream = new ObjectInputStream(new FileInputStream("endArrayFile"));
 			endArray = (int[])endStream.readObject();
-			corpus = new RandomAccessFile("/info/adk15/labb1/korpus", "r");
+			corpus = new RandomAccessFile("korpus", "r");
 	}
 
 	/**
@@ -42,22 +42,23 @@ public class Finder {
 	}
 	
 	private int binarySearch (int i, int j) throws IOException {
-		index.seek(i);
-		System.out.println("i: " + index.readByte());
-		index.seek(j);
-		System.out.println("j: " + index.readByte());
 		int m = i;
+		byte[] b = new byte[45];
+		index.seek(i);
+		index.readFully(b);
+		System.out.println(new String(b, "ISO-8859-1"));
 		while (j - i > 10) {
-			m = (i + j) / 2;
+			m = ((i + j) / 2) * BYTE_SIZE; //TODO get byte size from filemaker
 			index.seek(m);
-			int comp = index.readLine().compareTo(w);
+			index.readFully(b, 0, 45);
+			int comp = (new String(b, "ISO-8859-1")).compareTo(w);
 			System.out.println("comp: " + comp);
 			if (comp < 0)
 				return binarySearch(i, m);
 			else if (comp > 0)
 				return binarySearch(m, j);
 		}
-		System.out.println("line: " + index.readByte());
+		System.out.println("word: " + new String(b, "ISO-8859-1"));
 		return m;
 	}
 }

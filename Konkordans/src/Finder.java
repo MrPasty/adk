@@ -38,7 +38,7 @@ public class Finder {
 		binarySearch(begin, end);
 		corpus.seek(binarySearch(begin, end));
 		corpus.readLine();
-		corpus.close();
+		corpus.close(); 
 	}
 	
 	private int binarySearch (int i, int j) throws IOException {

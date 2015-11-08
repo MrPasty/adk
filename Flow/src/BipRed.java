@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class BipRed {
-	boolean debug = true;
+	boolean debug = false;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
 	int x, y, e, v;
@@ -44,14 +44,14 @@ public class BipRed {
 			System.out.println(e);
 			for (int a = 0; a < neighbours.size(); a++) {
 				for (int b : neighbours.get(a)) {
-					System.out.println((a + 1) + " " + b + " " + "1");
+					System.out.println((a + 1) + " " + b + " 1");
 				}
 			}
-			for (int i = 1; i < v; i++){
+			for (int i = 1; i <= v; i++){
 				if (i <= x)
-					System.out.println(s + " " + i);
+					System.out.println(s + " " + i + " 1");
 				else
-					System.out.println(i + " " + t);
+					System.out.println(i + " " + t + " 1");
 			}
 		} else {
 			io.println(v);
@@ -59,21 +59,22 @@ public class BipRed {
 			io.println(e);
 			for (int a = 0; a < neighbours.size(); a++) {
 				for (int b : neighbours.get(a)) {
-					io.println((a + 1) + " " + b + " " + "1");
+					io.println((a + 1) + " " + b + " " + " 1");
 				}
 			}
-			for (int i = 1; i < v; i++){
+			for (int i = 1; i <= v; i++){
 				if (i <= x)
-					io.println(s + " " + i);
+					io.println(s + " " + i + " 1");
 				else
-					io.println(i + " " + t);
+					io.println(i + " " + t + " 1");
 			}
 		}
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!
 		io.flush();
 
 		// Debugutskrift
-		System.err.println("Skickade iväg flödesgrafen");
+		if (debug)
+			System.out.println("Skickade iväg flödesgrafen");
 	}
 
 

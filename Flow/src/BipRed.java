@@ -51,8 +51,8 @@ public class BipRed {
 			io.println(v);
 			io.println(s + " " + t);
 			io.println(e);
-			for (ArrayList<Integer> a : neighbours) {
-				for (int b : a) {
+			for (int a = 0; a < neighbours.size(); a++) {
+				for (int b : neighbours.get(a)) {
 					io.println(a + " " + b + " " + "1");
 				}
 			}

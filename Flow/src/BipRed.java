@@ -42,10 +42,16 @@ public class BipRed {
 			System.out.println(v);
 			System.out.println(s + " " + t);
 			System.out.println(e);
-			for (ArrayList<Integer> a : neighbours) {
-				for (int b : a) {
-					System.out.println(a + " " + b + " " + "1");
+			for (int a = 0; a < neighbours.size(); a++) {
+				for (int b : neighbours.get(a)) {
+					System.out.println((a + 1) + " " + b + " " + "1");
 				}
+			}
+			for (int i = 1; i < v; i++){
+				if (i <= x)
+					System.out.println(s + " " + i);
+				else
+					System.out.println(i + " " + t);
 			}
 		} else {
 			io.println(v);
@@ -53,8 +59,14 @@ public class BipRed {
 			io.println(e);
 			for (int a = 0; a < neighbours.size(); a++) {
 				for (int b : neighbours.get(a)) {
-					io.println(a + " " + b + " " + "1");
+					io.println((a + 1) + " " + b + " " + "1");
 				}
+			}
+			for (int i = 1; i < v; i++){
+				if (i <= x)
+					io.println(s + " " + i);
+				else
+					io.println(i + " " + t);
 			}
 		}
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!

@@ -32,8 +32,6 @@ public class BipRed {
 				neighbours.add(new ArrayList<Integer>());
 			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
-		if(io.hasMoreTokens())
-			System.out.println("Neighbour list build ended prematurely");
 	}
 
 

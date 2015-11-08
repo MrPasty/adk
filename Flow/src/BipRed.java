@@ -59,7 +59,7 @@ public class BipRed {
 			io.println(e);
 			for (int a = 0; a < neighbours.size(); a++) {
 				for (int b : neighbours.get(a)) {
-					io.println((a + 1) + " " + b + " " + " 1");
+					io.println((a + 1) + " " + b + " 1");
 				}
 			}
 			for (int i = 1; i <= v; i++){

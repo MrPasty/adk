@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 
 public class BipRed {
+	boolean debug = true;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
 	int x, y, e, v;
@@ -39,12 +40,23 @@ public class BipRed {
 	void writeFlowGraph() {
 		int s = 0, t = v + 1;
 		// Skriv ut antal hörn och kanter samt källa och sänka
-		io.println(v);
-		io.println(s + " " + t);
-		io.println(e);
-		for (ArrayList<Integer> a : neighbours) {
-			for (int b : a) {
-				io.println(a + " " + b + " " + "1");
+		if (debug) {
+			System.out.println(v);
+			System.out.println(s + " " + t);
+			System.out.println(e);
+			for (ArrayList<Integer> a : neighbours) {
+				for (int b : a) {
+					System.out.println(a + " " + b + " " + "1");
+				}
+			}
+		} else {
+			io.println(v);
+			io.println(s + " " + t);
+			io.println(e);
+			for (ArrayList<Integer> a : neighbours) {
+				for (int b : a) {
+					io.println(a + " " + b + " " + "1");
+				}
 			}
 		}
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!

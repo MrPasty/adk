@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Exempel på in- och utdatahantering för maxflödeslabben i kursen
  * ADK.
@@ -10,32 +12,40 @@
 
 public class BipRed {
 	Kattio io;
+	ArrayList<ArrayList<Integer>> neighbours;
+	int x, y, e, v;
 
 	void readBipartiteGraph() {
 		// Läs antal hörn och kanter
-		int x = io.getInt();
-		int y = io.getInt();
-		int e = io.getInt();
+		x = io.getInt();
+		y = io.getInt();
+		e = io.getInt();
+		v = x + y;
+		neighbours = new ArrayList<ArrayList<Integer>>(v);
 
 		// Läs in kanterna
-		for (int i = 0; i < e; ++i) {
+		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
+			if (a > neighbours.size())
+				neighbours.add(new ArrayList<Integer>());
+			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
+		if(io.hasMoreTokens())
+			System.out.println("Neighbour list build ended prematurely");
 	}
 
 
 	void writeFlowGraph() {
-		int v = 23, e = 0, s = 1, t = 2;
-
+		int s = 0, t = v + 1;
 		// Skriv ut antal hörn och kanter samt källa och sänka
 		io.println(v);
 		io.println(s + " " + t);
 		io.println(e);
-		for (int i = 0; i < e; ++i) {
-			int a = 1, b = 2, c = 17;
-			// Kant från a till b med kapacitet c
-			io.println(a + " " + b + " " + c);
+		for (ArrayList<Integer> a : neighbours) {
+			for (int b : a) {
+				io.println(a + " " + b + " " + "1");
+			}
 		}
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!
 		io.flush();

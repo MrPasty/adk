@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class BipRed {
-	boolean debug = true;
+	boolean debug = false;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
 	int x, y, e, v, s, t;
@@ -93,10 +93,10 @@ public class BipRed {
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
 			if (a == newS || a == newT)	// exkludera alla kanter från källan / till inflödet
-				break;
+				continue;
 			int b = io.getInt();
 			if (b == newS || b == newT)	// exkludera alla kanter från källan / till inflödet
-				break;
+				continue;
 			io.getInt();
 			if (a > neighbours.size())
 				neighbours.add(new ArrayList<Integer>());
@@ -106,7 +106,7 @@ public class BipRed {
 		e -= v;
 		StringBuilder sb = new StringBuilder();
 		sb.append(v + "\n");
-//		sb.append(s + " " + t + "\n");
+		sb.append(s + " " + t + "\n");
 		sb.append(e + "\n");
 		for (int a = 0; a < neighbours.size(); a++) {
 			for (int b : neighbours.get(a)) {

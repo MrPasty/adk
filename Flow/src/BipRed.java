@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 
 public class BipRed {
-	boolean debug = false;
+	boolean debug = true;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
 	int x, y, e, v;
@@ -23,6 +23,9 @@ public class BipRed {
 		e = io.getInt();
 		v = x + y;
 		neighbours = new ArrayList<ArrayList<Integer>>(v);
+		
+		if (debug)
+			System.out.println("x: " + x + ", y: " + y + ", e: " + e + ", v: " + v);
 
 		// Läs in kanterna
 		for (int i = 0; i < e; i++) {
@@ -36,39 +39,30 @@ public class BipRed {
 
 
 	void writeFlowGraph() {
-		int s = 0, t = v + 1;
-		// Skriv ut antal hörn och kanter samt källa och sänka
-		if (debug) {
-			System.out.println(v);
-			System.out.println(s + " " + t);
-			System.out.println(e);
-			for (int a = 0; a < neighbours.size(); a++) {
-				for (int b : neighbours.get(a)) {
-					System.out.println((a + 1) + " " + b + " 1");
-				}
-			}
-			for (int i = 1; i <= v; i++){
-				if (i <= x)
-					System.out.println(s + " " + i + " 1");
-				else
-					System.out.println(i + " " + t + " 1");
-			}
-		} else {
-			io.println(v);
-			io.println(s + " " + t);
-			io.println(e);
-			for (int a = 0; a < neighbours.size(); a++) {
-				for (int b : neighbours.get(a)) {
-					io.println((a + 1) + " " + b + " 1");
-				}
-			}
-			for (int i = 1; i <= v; i++){
-				if (i <= x)
-					io.println(s + " " + i + " 1");
-				else
-					io.println(i + " " + t + " 1");
+		int s = v + 1, t = v + 2;
+		StringBuilder sb = new StringBuilder();
+		sb.append((v + 2) + "\n");
+		sb.append(s + " " + t + "\n");
+		sb.append((e + v) + "\n");
+		for (int a = 0; a < neighbours.size(); a++) {
+			for (int b : neighbours.get(a)) {
+				sb.append((a + 1) + " " + b + " 1" + "\n");
 			}
 		}
+		for (int i = 1; i <= v; i++){
+			if (i <= x)
+				sb.append(s + " " + i + " 1" + "\n");
+			else
+				sb.append(i + " " + t + " 1" + "\n");
+		}
+		String output = sb.toString();
+		
+		// Skriv ut antal hörn och kanter samt källa och sänka
+		if (debug)
+			System.out.println(output);
+		else
+			io.println(output);
+		
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!
 		io.flush();
 
@@ -87,12 +81,14 @@ public class BipRed {
 		int t = io.getInt();
 		int totflow = io.getInt();
 		int e = io.getInt();
+		neighbours = new ArrayList<ArrayList<Integer>>(v);
 
 		for (int i = 0; i < e; ++i) {
-			// Flöde f från a till b
 			int a = io.getInt();
 			int b = io.getInt();
-			int f = io.getInt();
+			if (a > neighbours.size())
+				neighbours.add(new ArrayList<Integer>());
+			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
 	}
 

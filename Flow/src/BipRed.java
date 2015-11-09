@@ -14,7 +14,7 @@ public class BipRed {
 	boolean debug = true;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
-	int x, y, e, v;
+	int x, y, e, v, s, t;
 
 	void readBipartiteGraph() {
 		// Läs antal hörn och kanter
@@ -25,7 +25,7 @@ public class BipRed {
 		neighbours = new ArrayList<ArrayList<Integer>>(v);
 		
 		if (debug)
-			System.out.println("x: " + x + ", y: " + y + ", e: " + e + ", v: " + v);
+			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
 
 		// Läs in kanterna
 		for (int i = 0; i < e; i++) {
@@ -39,7 +39,8 @@ public class BipRed {
 
 
 	void writeFlowGraph() {
-		int s = v + 1, t = v + 2;
+		s = v + 1;
+		t = v + 2;
 		StringBuilder sb = new StringBuilder();
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
@@ -56,6 +57,8 @@ public class BipRed {
 				sb.append(i + " " + t + " 1" + "\n");
 		}
 		String output = sb.toString();
+		v += 2;
+		e += v;
 		
 		// Skriv ut antal hörn och kanter samt källa och sänka
 		if (debug)
@@ -76,20 +79,45 @@ public class BipRed {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
-		int v = io.getInt();
-		int s = io.getInt();
-		int t = io.getInt();
+		boolean vbool = v == io.getInt();
+		boolean sbool = s == io.getInt();
+		boolean tbool = t == io.getInt();
+		if (!(vbool && sbool && tbool) && debug)	// antal hörn, källa och sänka ändrade?
+			System.err.println("v/s/t mismatch");
 		int totflow = io.getInt();
-		int e = io.getInt();
+		e = io.getInt();
 		neighbours = new ArrayList<ArrayList<Integer>>(v);
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
+			if (a == s || a == t)
+				break;
 			int b = io.getInt();
+			if (b == s || b == t)
+				break;
+			io.getInt();
 			if (a > neighbours.size())
 				neighbours.add(new ArrayList<Integer>());
 			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
+		v -= 2;
+		e -= v;
+		StringBuilder sb = new StringBuilder();
+		sb.append(v + "\n");
+		sb.append(s + " " + t + "\n");
+		sb.append(e + "\n");
+		for (int a = 0; a < neighbours.size(); a++) {
+			for (int b : neighbours.get(a)) {
+				sb.append((a + 1) + " " + b + " 1" + "\n");
+			}
+		}
+		for (int i = 1; i <= v; i++){
+			if (i <= x)
+				sb.append(s + " " + i + "\n");
+			else
+				sb.append(i + " " + t + "\n");
+		}
+		String output = sb.toString();
 	}
 
 

@@ -50,7 +50,7 @@ public class BipRed {
 				sb.append((a + 1) + " " + b + " 1" + "\n");
 			}
 		}
-		for (int i = 1; i <= v; i++){
+		for (int i = 1; i <= v; i++) {
 			if (i <= x)
 				sb.append(s + " " + i + " 1" + "\n");
 			else
@@ -78,35 +78,41 @@ public class BipRed {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
-		int newV = io.getInt();
-		int newS = io.getInt();
-		int newT = io.getInt();
-		boolean vbool = v == newV;
-		boolean sbool = s == newS;
-		boolean tbool = t == newT;
-		if (!(vbool && sbool && tbool) && debug)	// antal hörn, källa och sänka ändrade?
-			System.err.println("v/s/t mismatch");
+		v = io.getInt();
+		s = io.getInt();
+		t = io.getInt();
+//		boolean vbool = v == newV;
+//		boolean sbool = s == newS;
+//		boolean tbool = t == newT;
+//		if (!(vbool && sbool && tbool) && debug)	// antal hörn, källa och sänka ändrade?
+//			System.err.println("v/s/t mismatch");
 		int totflow = io.getInt();
 		e = io.getInt();
 		neighbours = new ArrayList<ArrayList<Integer>>(v);
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
-			if (a == newS || a == newT)	// exkludera alla kanter från källan / till inflödet
+			if (a == s || a == t) {	// exkludera alla kanter från källan / till inflödet
+				io.getInt();
+				io.getInt();
 				continue;
+			}
 			int b = io.getInt();
-			if (b == newS || b == newT)	// exkludera alla kanter från källan / till inflödet
+			if (b == s || b == t) {	// exkludera alla kanter från källan / till inflödet
+				io.getInt();
 				continue;
-			io.getInt();
+				}
+			int f = io.getInt();
 			if (a > neighbours.size())
 				neighbours.add(new ArrayList<Integer>());
 			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
-		v = newV - 2;
-		e -= v;
+//		v -= 2; //should this be done earlier?
+//		e -= v; //should this be done earlier?
 		StringBuilder sb = new StringBuilder();
+		// following is correct format?
 		sb.append(v + "\n");
-		sb.append(s + " " + t + "\n");
+		sb.append(s + " " + t + "\n"); 
 		sb.append(e + "\n");
 		for (int a = 0; a < neighbours.size(); a++) {
 			for (int b : neighbours.get(a)) {

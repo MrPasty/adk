@@ -63,8 +63,7 @@ public class BipRed {
 		// Skriv ut antal hörn och kanter samt källa och sänka
 		if (debug)
 			System.out.println(output);
-		else
-			io.println(output);
+		io.println(output);
 		
 		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!
 		io.flush();
@@ -118,6 +117,10 @@ public class BipRed {
 				sb.append(i + " " + t + "\n");
 		}
 		String output = sb.toString();
+		// Skriv ut antal hörn och kanter samt källa och sänka
+		if (debug)
+			System.out.println(output);
+		io.println(output);
 	}
 
 

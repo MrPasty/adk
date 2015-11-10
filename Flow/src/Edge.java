@@ -12,15 +12,15 @@ public class Edge {
 	}
 	
 	public Edge (int a, int b, int cap, int flow) {
-		new Edge(a, b, cap, flow, null);
-	}
-	
-	public Edge (int a, int b, int cap, int flow, Edge rev) {
 		this.a = a;
 		this.b = b;
 		this.cap = cap;
 		this.flow = flow;
 		cap = cap < flow ? flow : cap;
-		this.rev = rev == null ? this : rev;
+		this.rev = this;
+	}
+	
+	public Edge (int a, int b, int cap, int flow, Edge rev) {
+		this.rev = rev == null ? new Edge (a, b, cap, flow) : rev;
 	}
 }

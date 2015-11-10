@@ -12,7 +12,7 @@ public class Edge {
 	}
 	
 	public Edge (int a, int b, int cap, int flow) {
-		new Edge(a, b, cap, flow, this);
+		new Edge(a, b, cap, flow, null);
 	}
 	
 	public Edge (int a, int b, int cap, int flow, Edge rev) {
@@ -21,6 +21,6 @@ public class Edge {
 		this.cap = cap;
 		this.flow = flow;
 		cap = cap < flow ? flow : cap;
-		this.rev = rev;		
+		this.rev = rev == null ? this : rev;
 	}
 }

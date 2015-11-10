@@ -12,7 +12,12 @@ public class Edge {
 	}
 	
 	public Edge (int a, int b, int cap, int flow) {
-		new Edge(a, b, cap, flow, this);
+		this.a = a;
+		this.b = b;
+		this.cap = cap;
+		this.flow = flow;
+		cap = cap < flow ? flow : cap;
+		this.rev = this;
 	}
 	
 	public Edge (int a, int b, int cap, int flow, Edge rev) {

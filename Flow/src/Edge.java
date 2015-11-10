@@ -20,6 +20,7 @@ public class Edge {
 		this.b = b;
 		this.cap = cap;
 		this.flow = flow;
+		cap = cap < flow ? flow : cap;
 		this.rev = rev;		
 	}
 }

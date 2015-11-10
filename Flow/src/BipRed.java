@@ -15,7 +15,7 @@ public class BipRed {
 	boolean debug = false;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
-	HashMap<Integer, ArrayList<Integer>> edges;
+	ArrayList<Edge> edges;
 
 	int x, y, e, v, s, t, totflow;
 
@@ -84,7 +84,7 @@ public class BipRed {
 		t = io.getInt();
 		totflow = io.getInt();
 		e = io.getInt();
-		edges = new HashMap<Integer, ArrayList<Integer>>();
+		edges = new ArrayList<Edge>();
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
@@ -98,10 +98,8 @@ public class BipRed {
 				io.getInt();
 				continue;
 				}
-			io.getInt();
-			if (edges.get(a) == null) // use own class instead of hash map?
-				edges.put(a, new ArrayList<Integer>());
-			edges.get(a).add(b);	//TODO: optimera?
+			int f = io.getInt();
+			edges.add(new Edge(a, b, 0, f));
 		}
 	}
 
@@ -111,26 +109,18 @@ public class BipRed {
 		StringBuilder sb = new StringBuilder();
 		sb.append(x + " " + y + "\n");
 		
-//		v -= 2; // ta bort källa och sänka
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		for (int a = 0; a < edges.size(); a++) {
-			for (int b : edges.get(a)) {
-				sb.append(a + " " + b + "\n");
-			}
+		Edge edge;
+		for (int i = 0; i < edges.size(); i++) {
+			edge = edges.get(i);
+			sb.append(edge.a + " " + edge.b + "\n");
 		}
 		String output = sb.toString();
 		// Skriv ut antal hörn och kanter samt källa och sänka
 		if (debug)
 			System.out.println(output);
 		io.println(output);
-
-//		for (int i = 0; i < totflow; ++i) {
-//			int a = 5, b = 2323;
-//			// Kant mellan a och b ingår i vår matchningslösning
-//			io.println(a + " " + b);
-//		}
-
 	}
 
 	BipRed() {

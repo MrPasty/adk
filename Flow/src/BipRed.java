@@ -57,8 +57,6 @@ public class BipRed {
 				sb.append(i + " " + t + " 1" + "\n");
 		}
 		String output = sb.toString();
-		v += 2;
-		e += v;
 		
 		// Skriv ut antal hörn och kanter samt källa och sänka
 		if (debug)
@@ -102,16 +100,19 @@ public class BipRed {
 				neighbours.add(new ArrayList<Integer>());
 			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
+		System.out.println("neighbours size: " + neighbours.size());
 	}
 
 
 	void writeBipMatchSolution() {
-//		v -= 2; //should this be done earlier?
-//		e -= v; //should this be done earlier?
+		// Skriv ut antal hörn och storleken på matchningen
+		io.println(x + " " + y);
+//		io.println(totflow);
+		
+		v -= 2; // ta bort källa och sänka
+		e -= v; // ta bort kanter till/från källa och sänka
 		StringBuilder sb = new StringBuilder();
 		// following is correct format?
-		sb.append(v + "\n");
-		sb.append(s + " " + t + "\n"); 
 		sb.append(e + "\n");
 		for (int a = 0; a < neighbours.size(); a++) {
 			for (int b : neighbours.get(a)) {
@@ -123,18 +124,12 @@ public class BipRed {
 		if (debug)
 			System.out.println(output);
 		io.println(output);
-		
-		int maxMatch = 0;
 
-		// Skriv ut antal hörn och storleken på matchningen
-		io.println(x + " " + y);
-		io.println(maxMatch);
-
-		for (int i = 0; i < maxMatch; ++i) {
-			int a = 5, b = 2323;
-			// Kant mellan a och b ingår i vår matchningslösning
-			io.println(a + " " + b);
-		}
+//		for (int i = 0; i < totflow; ++i) {
+//			int a = 5, b = 2323;
+//			// Kant mellan a och b ingår i vår matchningslösning
+//			io.println(a + " " + b);
+//		}
 
 	}
 

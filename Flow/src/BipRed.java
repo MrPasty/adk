@@ -14,7 +14,7 @@ public class BipRed {
 	boolean debug = false;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
-	int x, y, e, v, s, t;
+	int x, y, e, v, s, t, totflow;
 
 	void readBipartiteGraph() {
 		// Läs antal hörn och kanter
@@ -81,32 +81,31 @@ public class BipRed {
 		v = io.getInt();
 		s = io.getInt();
 		t = io.getInt();
-//		boolean vbool = v == newV;
-//		boolean sbool = s == newS;
-//		boolean tbool = t == newT;
-//		if (!(vbool && sbool && tbool) && debug)	// antal hörn, källa och sänka ändrade?
-//			System.err.println("v/s/t mismatch");
-		int totflow = io.getInt();
+		totflow = io.getInt();
 		e = io.getInt();
 		neighbours = new ArrayList<ArrayList<Integer>>(v);
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
-			if (a == s || a == t) {	// exkludera alla kanter från källan / till inflödet
+			if (a == s || a == t) {	// exkludera alla kanter från källan / till sänkan
 				io.getInt();
 				io.getInt();
 				continue;
 			}
 			int b = io.getInt();
-			if (b == s || b == t) {	// exkludera alla kanter från källan / till inflödet
+			if (b == s || b == t) {	// exkludera alla kanter från källan / till sänkan
 				io.getInt();
 				continue;
 				}
-			int f = io.getInt();
-			if (a > neighbours.size())
+			io.getInt();
+			if (a >= neighbours.size())
 				neighbours.add(new ArrayList<Integer>());
 			neighbours.get(a - 1).add(b);	//TODO: optimera?
 		}
+	}
+
+
+	void writeBipMatchSolution() {
 //		v -= 2; //should this be done earlier?
 //		e -= v; //should this be done earlier?
 		StringBuilder sb = new StringBuilder();
@@ -124,11 +123,8 @@ public class BipRed {
 		if (debug)
 			System.out.println(output);
 		io.println(output);
-	}
-
-
-	void writeBipMatchSolution() {
-		int x = 17, y = 4711, maxMatch = 0;
+		
+		int maxMatch = 0;
 
 		// Skriv ut antal hörn och storleken på matchningen
 		io.println(x + " " + y);

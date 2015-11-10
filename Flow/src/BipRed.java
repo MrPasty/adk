@@ -15,7 +15,6 @@ public class BipRed {
 	boolean debug = false;
 	Kattio io;
 	ArrayList<Edge> edges;
-	Edge edge;
 
 	int x, y, e, v, s, t, totflow;
 
@@ -46,6 +45,7 @@ public class BipRed {
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
+		Edge edge;
 		for (int i = 0; i < edges.size(); i++) {
 			edge = edges.get(i);
 			sb.append(edge.a + " " + edge.b + " " + edge.cap + "\n");
@@ -108,6 +108,7 @@ public class BipRed {
 		
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
+		Edge edge;
 		for (int i = 0; i < edges.size(); i++) {
 			edge = edges.get(i);
 			sb.append(edge.a + " " + edge.b + "\n");

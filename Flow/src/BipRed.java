@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Exempel på in- och utdatahantering för maxflödeslabben i kursen
@@ -14,6 +15,8 @@ public class BipRed {
 	boolean debug = false;
 	Kattio io;
 	ArrayList<ArrayList<Integer>> neighbours;
+	HashMap<Integer, ArrayList<Integer>> edges;
+
 	int x, y, e, v, s, t, totflow;
 
 	void readBipartiteGraph() {
@@ -81,7 +84,7 @@ public class BipRed {
 		t = io.getInt();
 		totflow = io.getInt();
 		e = io.getInt();
-		neighbours = new ArrayList<ArrayList<Integer>>(v);
+		edges = new HashMap<Integer, ArrayList<Integer>>();
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
@@ -96,27 +99,24 @@ public class BipRed {
 				continue;
 				}
 			io.getInt();
-			if (a >= neighbours.size())
-				neighbours.add(new ArrayList<Integer>());
-			neighbours.get(a - 1).add(b);	//TODO: optimera?
+			if (edges.get(a) == null) // use own class instead of hash map?
+				edges.put(a, new ArrayList<Integer>());
+			edges.get(a).add(b);	//TODO: optimera?
 		}
-		System.out.println("neighbours size: " + neighbours.size());
 	}
 
 
 	void writeBipMatchSolution() {
 		// Skriv ut antal hörn och storleken på matchningen
-		io.println(x + " " + y);
-//		io.println(totflow);
-		
-		v -= 2; // ta bort källa och sänka
-		e -= v; // ta bort kanter till/från källa och sänka
 		StringBuilder sb = new StringBuilder();
-		// following is correct format?
+		sb.append(x + " " + y + "\n");
+		
+//		v -= 2; // ta bort källa och sänka
+		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		for (int a = 0; a < neighbours.size(); a++) {
-			for (int b : neighbours.get(a)) {
-				sb.append((a + 1) + " " + b + "\n");
+		for (int a = 0; a < edges.size(); a++) {
+			for (int b : edges.get(a)) {
+				sb.append(a + " " + b + "\n");
 			}
 		}
 		String output = sb.toString();

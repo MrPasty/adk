@@ -14,8 +14,8 @@ import java.util.HashMap;
 public class BipRed {
 	boolean debug = false;
 	Kattio io;
-	ArrayList<Edge> neighbours;
 	ArrayList<Edge> edges;
+	Edge edge;
 
 	int x, y, e, v, s, t, totflow;
 
@@ -25,7 +25,7 @@ public class BipRed {
 		y = io.getInt();
 		e = io.getInt();
 		v = x + y;
-		neighbours = new ArrayList<Edge>();
+		edges = new ArrayList<Edge>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -34,7 +34,7 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
-			neighbours.add(new Edge(a, b));
+			edges.add(new Edge(a, b));
 		}
 	}
 
@@ -46,16 +46,10 @@ public class BipRed {
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
-		Edge edge;
-		for (int i = 0; i < neighbours.size(); i++) {
-			edge = neighbours.get(i);
+		for (int i = 0; i < edges.size(); i++) {
+			edge = edges.get(i);
 			sb.append(edge.a + " " + edge.b + " " + edge.cap + "\n");
 		}
-//		for (int a = 0; a < neighbours.size(); a++) {
-//			for (int b : neighbours.get(a)) {
-//				sb.append((a + 1) + " " + b + " 1" + "\n");
-//			}
-//		}
 		for (int i = 1; i <= v; i++) {
 			if (i <= x)
 				sb.append(s + " " + i + " 1" + "\n");
@@ -114,7 +108,6 @@ public class BipRed {
 		
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		Edge edge;
 		for (int i = 0; i < edges.size(); i++) {
 			edge = edges.get(i);
 			sb.append(edge.a + " " + edge.b + "\n");

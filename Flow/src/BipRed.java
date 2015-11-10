@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class BipRed {
 	boolean debug = false;
 	Kattio io;
-	ArrayList<ArrayList<Integer>> neighbours;
+	ArrayList<Edge> neighbours;
 	ArrayList<Edge> edges;
 
 	int x, y, e, v, s, t, totflow;
@@ -25,7 +25,7 @@ public class BipRed {
 		y = io.getInt();
 		e = io.getInt();
 		v = x + y;
-		neighbours = new ArrayList<ArrayList<Integer>>(v);
+		neighbours = new ArrayList<Edge>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -34,9 +34,7 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
-			if (a > neighbours.size())
-				neighbours.add(new ArrayList<Integer>());
-			neighbours.get(a - 1).add(b);	//TODO: optimera?
+			neighbours.add(new Edge(a, b));
 		}
 	}
 
@@ -48,11 +46,16 @@ public class BipRed {
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
-		for (int a = 0; a < neighbours.size(); a++) {
-			for (int b : neighbours.get(a)) {
-				sb.append((a + 1) + " " + b + " 1" + "\n");
-			}
+		Edge edge;
+		for (int i = 0; i < neighbours.size(); i++) {
+			edge = neighbours.get(i);
+			sb.append(edge.a + " " + edge.b + " " + edge.cap + "\n");
 		}
+//		for (int a = 0; a < neighbours.size(); a++) {
+//			for (int b : neighbours.get(a)) {
+//				sb.append((a + 1) + " " + b + " 1" + "\n");
+//			}
+//		}
 		for (int i = 1; i <= v; i++) {
 			if (i <= x)
 				sb.append(s + " " + i + " 1" + "\n");

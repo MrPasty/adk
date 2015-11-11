@@ -8,7 +8,7 @@ public class Flow {
 	Flow (Kattio io) {
 		BipRed br = new BipRed();
 		br.readBipartiteGraph(io);
-		FordFulkersons(edges);
+		new FordFulkersons(edges);
 	}
 
 	public static void main(String[] args) {

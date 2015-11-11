@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Exempel på in- och utdatahantering för maxflödeslabben i kursen
@@ -12,19 +11,18 @@ import java.util.HashMap;
  */
 
 public class BipRed {
-	boolean debug = false;
-	Kattio io;
-	HashMap<int[], Edge> edges;
+	private final boolean debug = false;
+	private ArrayList<Edge> edges;
 
 	int x, y, e, v, s, t, totflow;
 
-	void readBipartiteGraph() {
+	public ArrayList<Edge> readBipartiteGraph(Kattio io) {
 		// Läs antal hörn och kanter
 		x = io.getInt();
 		y = io.getInt();
 		e = io.getInt();
 		v = x + y;
-		edges = new HashMap<int[], Edge>();
+		edges = new ArrayList<Edge>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -33,22 +31,21 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
-			edges.put(new int[]{a, b}, new Edge(a, b));
+			edges.add(new Edge(a, b));
 		}
+		return edges;
 	}
 
 
-	void writeFlowGraph() {
+	void writeFlowGraph(Kattio io) {
 		s = v + 1;
 		t = v + 2;
 		StringBuilder sb = new StringBuilder();
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
-		Edge edge;
-		for (int i = 0; i < edges.size(); i++) {
-			edge = edges.get(i);
-			sb.append(edge.a + " " + edge.b + " " + edge.cap + "\n");
+		for (Edge edge : edges) {
+			sb.append(edge.toString() + "\n");
 		}
 		for (int i = 1; i <= v; i++) {
 			if (i <= x)
@@ -72,7 +69,7 @@ public class BipRed {
 	}
 
 
-	void readMaxFlowSolution() {
+	public ArrayList<Edge> readMaxFlowSolution(Kattio io) {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
@@ -81,7 +78,7 @@ public class BipRed {
 		t = io.getInt();
 		totflow = io.getInt();
 		e = io.getInt();
-		edges = new HashMap<int[], Edge>();
+		edges = new ArrayList<Edge>();
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
@@ -96,22 +93,21 @@ public class BipRed {
 				continue;
 				}
 			int f = io.getInt();
-			edges.put(new int[]{a, b}, new Edge(a, b, 0, f));
+			edges.add(new Edge(a, b, 0, f));
 		}
+		return edges;
 	}
 
 
-	void writeBipMatchSolution() {
+	void writeBipMatchSolution(Kattio io) {
 		// Skriv ut antal hörn och storleken på matchningen
 		StringBuilder sb = new StringBuilder();
 		sb.append(x + " " + y + "\n");
 		
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		Edge edge;
 		for (int i = 0; i < edges.size(); i++) {
-			edge = edges.get(i);
-			sb.append(edge.a + " " + edge.b + "\n");
+			sb.append(edges.get(i).toString() + "\n");
 		}
 		String output = sb.toString();
 		// Skriv ut antal hörn och kanter samt källa och sänka
@@ -120,16 +116,14 @@ public class BipRed {
 		io.println(output);
 	}
 
-	BipRed() {
-		io = new Kattio(System.in, System.out);
+	public void Reduce (Kattio io) {
+		readBipartiteGraph(io);
 
-		readBipartiteGraph();
+		writeFlowGraph(io);
 
-		writeFlowGraph();
+		readMaxFlowSolution(io);
 
-		readMaxFlowSolution();
-
-		writeBipMatchSolution();
+		writeBipMatchSolution(io);
 
 		// debugutskrift
 		System.err.println("Bipred avslutar\n");
@@ -139,7 +133,9 @@ public class BipRed {
 	}
 
 	public static void main(String args[]) {
-		new BipRed();
+		Kattio io = new Kattio(System.in, System.out);
+		BipRed br = new BipRed();
+		br.Reduce(io);
 	}
 }
 

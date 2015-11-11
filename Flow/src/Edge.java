@@ -1,7 +1,7 @@
 
 public class Edge {
-	int a, b, cap, flow;
-	Edge rev;
+	private int a, b, cap, flow;
+	private Edge rev;
 	
 	public Edge (int a, int b) {
 		this(a, b, 1);
@@ -12,7 +12,7 @@ public class Edge {
 	}
 	
 	public Edge (int a, int b, int cap, int flow) {
-		this(a, b, cap, flow, null);
+		this(a, b, cap, flow, new Edge(b, a));
 	}
 	
 	public Edge (int a, int b, int cap, int flow, Edge rev) {
@@ -22,5 +22,21 @@ public class Edge {
 		this.flow = flow;
 		cap = cap < flow ? flow : cap;
 		this.rev = rev == null ? this : rev;
+	}
+	
+	public String toString () {
+		return (a + " " + b + " " + cap);
+	}
+	
+	public Edge getRev () {
+		return rev;
+	}
+	
+	public int getCap () {
+		return cap;
+	}
+	
+	public int getFlow () {
+		return flow;
 	}
 }

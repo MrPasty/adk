@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class BipRed {
 	boolean debug = false;
 	Kattio io;
-	ArrayList<Edge> edges;
+	HashMap<int[], Edge> edges;
 
 	int x, y, e, v, s, t, totflow;
 
@@ -24,7 +24,7 @@ public class BipRed {
 		y = io.getInt();
 		e = io.getInt();
 		v = x + y;
-		edges = new ArrayList<Edge>();
+		edges = new HashMap<int[], Edge>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -33,7 +33,7 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
-			edges.add(new Edge(a, b));
+			edges.put(new int[]{a, b}, new Edge(a, b));
 		}
 	}
 
@@ -81,7 +81,7 @@ public class BipRed {
 		t = io.getInt();
 		totflow = io.getInt();
 		e = io.getInt();
-		edges = new ArrayList<Edge>();
+		edges = new HashMap<int[], Edge>();
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
@@ -96,7 +96,7 @@ public class BipRed {
 				continue;
 				}
 			int f = io.getInt();
-			edges.add(new Edge(a, b, 0, f));
+			edges.put(new int[]{a, b}, new Edge(a, b, 0, f));
 		}
 	}
 

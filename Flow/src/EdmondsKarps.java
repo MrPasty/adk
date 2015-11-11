@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 import java.lang.Math;
 
-public class FordFulkersons {
+public class EdmondsKarps {
 	Kattio io;
 	ArrayList<Edge> edges;
 	ArrayList<Edge> restFlowEdges;
 	
-	public FordFulkersons (ArrayList<Edge> edges) {
+	public EdmondsKarps (ArrayList<Edge> edges) {
 		
 		int u, v, c, f, revf, cf; // c[u,v] är kapaciteten från u till v, f[u,v] är flödet, cf[u,v] är restkapaciteten.
 		this.edges = edges;
@@ -24,7 +24,7 @@ public class FordFulkersons {
 //			edge.setCap(edge.getRev().getCap()); // cf[v,u]:=c[v,u] redundant
 		}
 //		while det finns en stig p från s till t i restflödesgrafen do 
-		while (p) { //TODO: get p through BFS, makes this whole class Edmonds-Karps algorithm
+		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm
 //		    r:=min(cf[u,v]: (u,v) ingår i p) 
 			int r = min(edge.getRev().getCap(), anotherint);
 //		    for varje kant (u,v) i p do 
@@ -46,4 +46,8 @@ public class FordFulkersons {
 //	    for varje kant (u,v) i p do 
 //	         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
 //	         cf[u,v]:=c[u,v] - f[u,v]; cf[v,u]:=c[v,u] - f[v,u]
+	
+	public void bfs () {
+		//TODO: implement bfs (Dijsktra's on restflowgraph?)
+	}
 }

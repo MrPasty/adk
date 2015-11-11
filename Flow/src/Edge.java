@@ -36,7 +36,15 @@ public class Edge {
 		return cap;
 	}
 	
+	public void setCap (int cap) {
+		this.cap = cap;
+	}
+	
 	public int getFlow () {
 		return flow;
+	}
+	
+	public void setFlow (int flow) {
+		this.flow = flow;
 	}
 }

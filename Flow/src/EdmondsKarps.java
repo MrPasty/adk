@@ -20,8 +20,8 @@ public class EdmondsKarps {
 			edge.getRev().setFlow(0);
 			
 //		    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]
-			edge.getRev().setCap(edge.getCap()); //	cf[u,v]:=c[u,v]
-//			edge.setCap(edge.getRev().getCap()); // cf[v,u]:=c[v,u] redundant
+			edge.getRev().setCap(edge.getCap());
+//			edge.setCap(edge.getRev().getCap()); // redundant
 		}
 //		while det finns en stig p från s till t i restflödesgrafen do 
 		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm

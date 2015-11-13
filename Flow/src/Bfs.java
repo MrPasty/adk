@@ -13,31 +13,30 @@ public class Bfs {
 	 * @param to end node
 	 * @return ArrayList containing the shortest path
 	 */
-	private static ArrayList<Integer> shortestPath(Graph g, int from,  int to) {
+	private static ArrayList<Edge> shortestPath(ArrayList<Edge> edges, int s,  int t) {
 		Queue<Integer> q = new LinkedList<Integer>();
-		int n = g.numVertices();
+		int n = edges.size();
 		boolean[] visited = new boolean[n];
-		int[] previous = new int[visited.length];
-		int start = from;
-		previous[from] = -1;
-		q.add(from);
-		visited[from] = true;
-		while(q.size()!=0) {
-			from = q.poll();
-			for(VertexIterator it = g.neighbors(from); it.hasNext();) {
-				int index = it.next();
-				if(!visited[index]) {
-					visited[index] = true;
-					q.add(index);
-					previous[index] = from;
+		Edge[] previous = new Edge[n];
+		int start = s;
+		previous[s] = null;
+		q.add(s);
+		visited[s] = true;
+		while(q.size() != 0) {
+			s = q.poll();
+			for (int i = 0; i < edges.size(); i++) {
+				if(!visited[i]) {
+					visited[i] = true;
+					q.add(i);
+					previous[i] = s;
 				}
 			}
 		}
 		ArrayList<Integer> prevs = new ArrayList<Integer>();
-		if(visited[to]){
-			while(previous[to] != -1) {
-				prevs.add(0, to);
-				to = previous[to];
+		if(visited[t]) {
+			while(previous[t] != null) {
+				prevs.add(0, t);
+				t = previous[t];
 			}
 			prevs.add(0, start);
 		}

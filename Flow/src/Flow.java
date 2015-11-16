@@ -7,8 +7,8 @@ public class Flow {
 	
 	Flow (Kattio io) {
 		BipRed br = new BipRed();
-		br.readBipartiteGraph(io);
-		new EdmondsKarps(edges);
+		edges = br.readMaxFlowSolution(io, false);
+		new EdmondsKarps(edges, br.s, br.t);
 	}
 
 	public static void main(String[] args) {

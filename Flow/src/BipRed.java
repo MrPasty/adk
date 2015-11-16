@@ -69,14 +69,15 @@ public class BipRed {
 	}
 
 
-	public ArrayList<Edge> readMaxFlowSolution(Kattio io) {
+	public ArrayList<Edge> readMaxFlowSolution(Kattio io, boolean readMaxFlow) {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
 		v = io.getInt();
 		s = io.getInt();
 		t = io.getInt();
-		totflow = io.getInt();
+		if (readMaxFlow)
+			totflow = io.getInt();
 		e = io.getInt();
 		edges = new ArrayList<Edge>();
 
@@ -121,7 +122,7 @@ public class BipRed {
 
 		writeFlowGraph(io);
 
-		readMaxFlowSolution(io);
+		readMaxFlowSolution(io, true);
 
 		writeBipMatchSolution(io);
 

@@ -6,9 +6,9 @@ import java.lang.Math;
 
 public class EdmondsKarps {
 	Kattio io;
-	ArrayList<Edge> edges;
-	int s;
-	int t;
+	private ArrayList<Edge> edges;
+	private int s;
+	private int t;
 	
 	
 	public EdmondsKarps (ArrayList<Edge> edges, int s,  int t) {
@@ -29,14 +29,15 @@ public class EdmondsKarps {
 			edge.getRev().setCap(edge.getCap());
 //			edge.setCap(edge.getRev().getCap()); // redundant
 		}
+		bfs();
 //		while det finns en stig p från s till t i restflödesgrafen do 
-		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm
+//		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm
 //		    r:=min(cf[u,v]: (u,v) ingår i p) 
-			int r = min(edge.getRev().getCap(), anotherint);
+//			int r = min(edge.getRev().getCap(), anotherint);
 //		    for varje kant (u,v) i p do 
 //		         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
 //		         cf[u,v]:=c[u,v] - f[u,v]; cf[v,u]:=c[v,u] - f[v,u]
-		}
+//		}
 		
 	}
 	
@@ -64,20 +65,24 @@ public class EdmondsKarps {
 	 * @param to end node
 	 * @return ArrayList containing the shortest path
 	 */
-	private ArrayList<Edge> shortestPath() {
-		Queue<Integer> q = new LinkedList<Integer>();
-		int n = edges.size();
-		HashMap<Integer, Integer> visited = new HashMap<>();
-		Edge[] previous = new Edge[n];
+	private ArrayList<Edge> bfs() {
 		int start = s;
-		previous[s] = null;
+		int n = edges.size();
+		
+		Queue<Integer> q = new LinkedList<Integer>();
 		q.add(s);
-		visited[s] = true;
+		
+		HashMap<Integer, Boolean> visited = new HashMap<>();
+		visited.put(s, false);
+		
+		Edge[] previous = new Edge[n];
+		previous[s] = null;
+		
 		while(q.size() != 0) {
 			s = q.poll();
-			for (int i = 0; i < edges.size(); i++) {
-				if(!visited[i]) {
-					visited[i] = true;
+			for (int i = 1; i <= edges.size(); i++) {
+				if(!visited.get(i)) {
+					visited.put(i, true);
 					q.add(i);
 					previous[i] = s;
 				}

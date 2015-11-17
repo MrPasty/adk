@@ -5,29 +5,30 @@ import java.util.Queue;
 import java.lang.Math;
 
 public class EdmondsKarps {
-	Kattio io;
+	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
-	private int s;
-	private int t;
+	private int v, s, t;
 	
 	
-	public EdmondsKarps (HashMap<Integer, ArrayList<Edge>> edges2, int s,  int t) {
-		this.edges = edges2;
-		this.s = s;
-		this.t = t;
+	public EdmondsKarps () {
+		br = new BipRed();
+		edges = br.readMaxFlowSolution(false);
+		v = br.v;
+		s = br.s;
+		t = br.t;
 		
 		int u, v, c, f, revf, cf; // c[u,v] �r kapaciteten fr�n u till v, f[u,v] �r fl�det, cf[u,v] �r restkapaciteten.
-		Edge edge, p;
+		ArrayList<Edge> edgeList, p;
 		
-		for (int i = 0; i < edges2.size(); i++) {//	for varje kant i i grafen do
-			edge = edges2.get(i);
+		for (int i = 0; i < edges.size(); i++) {//	for varje kant i i grafen do
+			edgeList = edges.get(i);
 			
 //		    f[u,v]:=0; f[v,u]:=0 
-			edge.setFlow(0);
-			edge.getRev().setFlow(0);
+			edgeList.setFlow(0);
+			edgeList.getRev().setFlow(0);
 			
 //		    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]
-			edge.getRev().setCap(edge.getCap());
+			edgeList.getRev().setCap(edgeList.getCap());
 //			edge.setCap(edge.getRev().getCap()); // redundant
 		}
 		bfs();

@@ -12,12 +12,17 @@ import java.util.HashMap;
  */
 
 public class BipRed {
+	private Kattio io;
 	private final boolean debug = false;
 	private HashMap<Integer, ArrayList<Edge>> edges;
 
-	int x, y, e, v, s, t, totflow;
+	public int x, y, e, v, s, t, totflow;
 
-	public HashMap<Integer, ArrayList<Edge>> readBipartiteGraph(Kattio io) {
+	public BipRed() {
+		io = new Kattio(System.in, System.out);
+	}
+	
+	public HashMap<Integer, ArrayList<Edge>> readBipartiteGraph() {
 		// Läs antal hörn och kanter
 		x = io.getInt();
 		y = io.getInt();
@@ -40,7 +45,7 @@ public class BipRed {
 	}
 
 
-	void writeFlowGraph(Kattio io) {
+	void writeFlowGraph() {
 		s = v + 1;
 		t = v + 2;
 		StringBuilder sb = new StringBuilder();
@@ -76,7 +81,7 @@ public class BipRed {
 	}
 
 
-	public HashMap<Integer, ArrayList<Edge>> readMaxFlowSolution(Kattio io, boolean readMaxFlow) {
+	public HashMap<Integer, ArrayList<Edge>> readMaxFlowSolution(boolean readMaxFlow) {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
@@ -109,7 +114,7 @@ public class BipRed {
 	}
 
 
-	void writeBipMatchSolution(Kattio io) {
+	void writeBipMatchSolution() {
 		// Skriv ut antal hörn och storleken på matchningen
 		StringBuilder sb = new StringBuilder();
 		sb.append(x + " " + y + "\n");
@@ -130,14 +135,14 @@ public class BipRed {
 		io.println(output);
 	}
 
-	public void Reduce (Kattio io) {
-		readBipartiteGraph(io);
+	public void Reduce() {
+		readBipartiteGraph();
 
-		writeFlowGraph(io);
+		writeFlowGraph();
 
-		readMaxFlowSolution(io, true);
+		readMaxFlowSolution(true);
 
-		writeBipMatchSolution(io);
+		writeBipMatchSolution();
 
 		// debugutskrift
 		System.err.println("Bipred avslutar\n");
@@ -147,9 +152,8 @@ public class BipRed {
 	}
 
 	public static void main(String args[]) {
-		Kattio io = new Kattio(System.in, System.out);
 		BipRed br = new BipRed();
-		br.Reduce(io);
+		br.Reduce();
 	}
 }
 

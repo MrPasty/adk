@@ -3,18 +3,16 @@ import java.util.HashMap;
 
 
 public class Flow {
-	private static Kattio io;
 	private HashMap<Integer, ArrayList<Edge>> edges;
 	
-	Flow (Kattio io) {
+	Flow () {
 		BipRed br = new BipRed();
-		edges = br.readMaxFlowSolution(io, false);
-		new EdmondsKarps(edges, br.s, br.t);
+		edges = br.readMaxFlowSolution(false);
+		new EdmondsKarps();
 	}
 
 	public static void main(String[] args) {
-		io = new Kattio(System.in, System.out);
-		new Flow (io);
+		new Flow ();
 	}
 
 }

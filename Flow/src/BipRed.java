@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Exempel på in- och utdatahantering för maxflödeslabben i kursen
@@ -12,17 +13,17 @@ import java.util.ArrayList;
 
 public class BipRed {
 	private final boolean debug = false;
-	private ArrayList<Edge> edges;
+	private HashMap<Integer, ArrayList<Edge>> edges;
 
 	int x, y, e, v, s, t, totflow;
 
-	public ArrayList<Edge> readBipartiteGraph(Kattio io) {
+	public HashMap<Integer, ArrayList<Edge>> readBipartiteGraph(Kattio io) {
 		// Läs antal hörn och kanter
 		x = io.getInt();
 		y = io.getInt();
 		e = io.getInt();
 		v = x + y;
-		edges = new ArrayList<Edge>();
+		edges = new HashMap<Integer, ArrayList<Edge>>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -31,7 +32,9 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
-			edges.add(new Edge(a, b));
+			if (edges.get(a) == null)
+				edges.put(a, new ArrayList<Edge>());
+			edges.get(a).add(new Edge(a, b));
 		}
 		return edges;
 	}
@@ -44,8 +47,12 @@ public class BipRed {
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
-		for (Edge edge : edges) {
-			sb.append(edge.toString() + "\n");
+		for (int i = 0; i < v; i++) {
+			if (edges.get(i) != null) {
+				ArrayList<Edge> l = edges.get(i);
+				for (Edge edge : l)
+					sb.append(edge.toString() + "\n");
+			}
 		}
 		for (int i = 1; i <= v; i++) {
 			if (i <= x)
@@ -69,7 +76,7 @@ public class BipRed {
 	}
 
 
-	public ArrayList<Edge> readMaxFlowSolution(Kattio io, boolean readMaxFlow) {
+	public HashMap<Integer, ArrayList<Edge>> readMaxFlowSolution(Kattio io, boolean readMaxFlow) {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
 		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
 		// skickade iväg)
@@ -79,7 +86,7 @@ public class BipRed {
 		if (readMaxFlow)
 			totflow = io.getInt();
 		e = io.getInt();
-		edges = new ArrayList<Edge>();
+		edges = new HashMap<Integer, ArrayList<Edge>>();
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
@@ -94,7 +101,9 @@ public class BipRed {
 				continue;
 				}
 			int f = io.getInt();
-			edges.add(new Edge(a, b, 0, f));
+			if (edges.get(a) == null)
+				edges.put(a, new ArrayList<Edge>());
+			edges.get(a).add(new Edge(a, b, 0, f));
 		}
 		return edges;
 	}
@@ -107,8 +116,12 @@ public class BipRed {
 		
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		for (int i = 0; i < edges.size(); i++) {
-			sb.append(edges.get(i).toString() + "\n");
+		for (int i = 0; i < v; i++) {
+			if (edges.get(i) != null) {
+				ArrayList<Edge> l = edges.get(i);
+				for (Edge edge : l)
+					sb.append(edge.toString() + "\n");
+			}
 		}
 		String output = sb.toString();
 		// Skriv ut antal hörn och kanter samt källa och sänka

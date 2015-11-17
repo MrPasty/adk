@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class Flow {
 	private static Kattio io;
-	private ArrayList<Edge> edges;
+	private HashMap<Integer, ArrayList<Edge>> edges;
 	
 	Flow (Kattio io) {
 		BipRed br = new BipRed();

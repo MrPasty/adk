@@ -47,7 +47,7 @@ public class BipRed {
 		sb.append((v + 2) + "\n");
 		sb.append(s + " " + t + "\n");
 		sb.append((e + v) + "\n");
-		for (int i = 0; i < v; i++) {
+		for (int i = 1; i <= v; i++) {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l)
@@ -116,7 +116,7 @@ public class BipRed {
 		
 		e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
-		for (int i = 0; i < v; i++) {
+		for (int i = 1; i <= v; i++) {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l)

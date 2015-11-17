@@ -6,21 +6,21 @@ import java.lang.Math;
 
 public class EdmondsKarps {
 	Kattio io;
-	private ArrayList<Edge> edges;
+	private HashMap<Integer, ArrayList<Edge>> edges;
 	private int s;
 	private int t;
 	
 	
-	public EdmondsKarps (ArrayList<Edge> edges, int s,  int t) {
-		this.edges = edges;
+	public EdmondsKarps (HashMap<Integer, ArrayList<Edge>> edges2, int s,  int t) {
+		this.edges = edges2;
 		this.s = s;
 		this.t = t;
 		
-		int u, v, c, f, revf, cf; // c[u,v] är kapaciteten från u till v, f[u,v] är flödet, cf[u,v] är restkapaciteten.
+		int u, v, c, f, revf, cf; // c[u,v] ï¿½r kapaciteten frï¿½n u till v, f[u,v] ï¿½r flï¿½det, cf[u,v] ï¿½r restkapaciteten.
 		Edge edge, p;
 		
-		for (int i = 0; i < edges.size(); i++) {//	for varje kant i i grafen do
-			edge = edges.get(i);
+		for (int i = 0; i < edges2.size(); i++) {//	for varje kant i i grafen do
+			edge = edges2.get(i);
 			
 //		    f[u,v]:=0; f[v,u]:=0 
 			edge.setFlow(0);
@@ -31,9 +31,9 @@ public class EdmondsKarps {
 //			edge.setCap(edge.getRev().getCap()); // redundant
 		}
 		bfs();
-//		while det finns en stig p från s till t i restflödesgrafen do 
+//		while det finns en stig p frï¿½n s till t i restflï¿½desgrafen do 
 //		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm
-//		    r:=min(cf[u,v]: (u,v) ingår i p) 
+//		    r:=min(cf[u,v]: (u,v) ingï¿½r i p) 
 //			int r = min(edge.getRev().getCap(), anotherint);
 //		    for varje kant (u,v) i p do 
 //		         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
@@ -44,13 +44,13 @@ public class EdmondsKarps {
 	
 //	Ford-Fulkersons algoritm i pseudokod
 //
-//	c[u,v] är kapaciteten från u till v, f[u,v] är flödet, cf[u,v] är restkapaciteten.
+//	c[u,v] ï¿½r kapaciteten frï¿½n u till v, f[u,v] ï¿½r flï¿½det, cf[u,v] ï¿½r restkapaciteten.
 //
 //	for varje kant (u,v) i grafen do 
 //	    f[u,v]:=0; f[v,u]:=0 
 //	    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u] 
-//	while det finns en stig p från s till t i restflödesgrafen do 
-//	    r:=min(cf[u,v]: (u,v) ingår i p) 
+//	while det finns en stig p frï¿½n s till t i restflï¿½desgrafen do 
+//	    r:=min(cf[u,v]: (u,v) ingï¿½r i p) 
 //	    for varje kant (u,v) i p do 
 //	         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
 //	         cf[u,v]:=c[u,v] - f[u,v]; cf[v,u]:=c[v,u] - f[v,u]

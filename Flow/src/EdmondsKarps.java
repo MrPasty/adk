@@ -17,19 +17,23 @@ public class EdmondsKarps {
 		s = br.s;
 		t = br.t;
 		
-		int u, v, c, f, revf, cf; // c[u,v] �r kapaciteten fr�n u till v, f[u,v] �r fl�det, cf[u,v] �r restkapaciteten.
+//		int u, v, c, f, revf, cf; c[u,v] �r kapaciteten fr�n u till v, f[u,v] �r fl�det, cf[u,v] �r restkapaciteten.
 		ArrayList<Edge> edgeList, p;
+		Edge rev;
 		
-		for (int i = 0; i < edges.size(); i++) {//	for varje kant i i grafen do
+		for (int i = 1; i <= v; i++) {//	for varje kant i i grafen do
 			edgeList = edges.get(i);
 			
-//		    f[u,v]:=0; f[v,u]:=0 
-			edgeList.setFlow(0);
-			edgeList.getRev().setFlow(0);
-			
-//		    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]
-			edgeList.getRev().setCap(edgeList.getCap());
-//			edge.setCap(edge.getRev().getCap()); // redundant
+			for(Edge e : edgeList) {
+//			    f[u,v]:=0; f[v,u]:=0 
+				e.setFlow(0);
+				rev= e.getRev();
+				rev.setFlow(0);
+				
+//			    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]]
+				rev.setCap(e.getCap());
+//				edge.setCap(edge.getRev().getCap()); // redundant
+			} 
 		}
 		bfs();
 //		while det finns en stig p fr�n s till t i restfl�desgrafen do 

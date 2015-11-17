@@ -83,13 +83,13 @@ public class BipRed {
 
 		for (int i = 0; i < e; ++i) {
 			int a = io.getInt();
-			if (a == s || a == t) {	// exkludera alla kanter från källan / till sänkan
+			if (readMaxFlow && (a == s || a == t)) {	// exkludera alla kanter från källan / till sänkan
 				io.getInt();
 				io.getInt();
 				continue;
 			}
 			int b = io.getInt();
-			if (b == s || b == t) {	// exkludera alla kanter från källan / till sänkan
+			if (readMaxFlow && (b == s || b == t)) {	// exkludera alla kanter från källan / till sänkan
 				io.getInt();
 				continue;
 				}

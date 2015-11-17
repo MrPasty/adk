@@ -12,6 +12,7 @@ public class EdmondsKarps {
 	
 	
 	public EdmondsKarps (ArrayList<Edge> edges, int s,  int t) {
+		this.edges = edges;
 		this.s = s;
 		this.t = t;
 		
@@ -84,18 +85,19 @@ public class EdmondsKarps {
 				if(!visited.get(i)) {
 					visited.put(i, true);
 					q.add(i);
-					previous[i] = s;
+					previous[i] = s; // TODO: rewrite edges to a HashMap<Integer, ArrayList<Edge>>
 				}
 			}
 		}
-		ArrayList<Integer> prevs = new ArrayList<Integer>();
-		if(visited[t]) {
-			while(previous[t] != null) {
-				prevs.add(0, t);
-				t = previous[t];
-			}
-			prevs.add(0, start);
-		}
-		return prevs;
+		//needed?
+//		ArrayList<Integer> prevs = new ArrayList<Integer>();
+//		if(visited[t]) {
+//			while(previous[t] != null) {
+//				prevs.add(0, t);
+//				t = previous[t];
+//			}
+//			prevs.add(0, start);
+//		}
+//		return prevs;
 	}
 }

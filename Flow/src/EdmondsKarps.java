@@ -27,7 +27,7 @@ public class EdmondsKarps {
 			for(Edge e : edgeList) {
 //			    f[u,v]:=0; f[v,u]:=0 
 				e.setFlow(0);
-				rev= e.getRev();
+				rev = e.getRev();
 				rev.setFlow(0);
 				
 //			    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]]

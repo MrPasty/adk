@@ -28,6 +28,14 @@ public class Edge {
 		return (a + " " + b + " " + cap);
 	}
 	
+	public int getA () {
+		return a;
+	}
+	
+	public int getB () {
+		return b;
+	}
+	
 	public Edge getRev () {
 		return rev;
 	}

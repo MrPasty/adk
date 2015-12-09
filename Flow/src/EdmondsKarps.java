@@ -7,7 +7,7 @@ import java.lang.Math;
 public class EdmondsKarps {
 	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
-	private int v, s, t;
+	private int v, s, t, totflow;
 	
 	
 	public EdmondsKarps () {
@@ -71,28 +71,31 @@ public class EdmondsKarps {
 	 * @param to end node
 	 * @return ArrayList containing the shortest path
 	 */
-	private ArrayList<Edge> bfs() {
-		int start = s;
+	private void bfs() {
+		int b = -1;
 		int n = edges.size();
+		int qElement;
 		
 		Queue<Integer> q = new LinkedList<Integer>();
 		q.add(s);
 		
-		HashMap<Integer, Boolean> visited = new HashMap<>();
-		visited.put(s, false);
-		
 		Edge[] previous = new Edge[n];
-		previous[s] = null;
+		
+		ArrayList<Edge> current = null;
 		
 		while(q.size() != 0) {
-			s = q.poll();
-			for (int i = 1; i <= edges.size(); i++) {
-				if(!visited.get(i)) {
-					visited.put(i, true);
-					q.add(i);
-					previous[i] = s; // TODO: rewrite edges to a HashMap<Integer, ArrayList<Edge>>
+			qElement = q.poll();
+			for (int i = 1; i <= t; i++) {
+				if (edges.get(i) != null) {
+					current = edges.get(i);
+					for(Edge e : current) {
+						b = e.getB ();
+						q.add(b);
+						previous[b] = e;
+					}
 				}
 			}
+			
 		}
 		//needed?
 //		ArrayList<Integer> prevs = new ArrayList<Integer>();

@@ -73,29 +73,20 @@ public class EdmondsKarps {
 	 */
 	private void bfs() {
 		int b = -1;
-		int n = edges.size();
-		int qElement;
-		
-		Queue<Integer> q = new LinkedList<Integer>();
-		q.add(s);
-		
-		Edge[] previous = new Edge[n];
+		HashMap<Integer, ArrayList<Edge>> residual = new HashMap<> (edges.size());
 		
 		ArrayList<Edge> current = null;
-		
-		while(q.size() != 0) {
-			qElement = q.poll();
-			for (int i = 1; i <= t; i++) {
-				if (edges.get(i) != null) {
-					current = edges.get(i);
-					for(Edge e : current) {
-						b = e.getB ();
-						q.add(b);
-						previous[b] = e;
-					}
+	
+		for (int i = s; i <= t; i++) {
+			if (edges.get(i) != null) {
+				current = edges.get(i);
+				for(Edge e : current) {
+					b = e.getB ();
+					if (residual.get(b) == null)
+						residual.put(b, new ArrayList<Edge> ());
+					residual.get(b).add(e.getRev());
 				}
 			}
-			
 		}
 		//needed?
 //		ArrayList<Integer> prevs = new ArrayList<Integer>();

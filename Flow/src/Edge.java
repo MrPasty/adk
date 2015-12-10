@@ -18,8 +18,8 @@ public class Edge {
 	public Edge (int a, int b, int cap, int flow, Edge rev) {
 		this.a = a;
 		this.b = b;
-		cap = cap < flow ? flow : cap;
 		this.cap = cap;
+		flow = flow > cap ? cap : flow;
 		this.flow = flow;
 		this.rev = rev == null ? new Edge(b, a, this.cap - flow, flow, this) : rev;
 	}

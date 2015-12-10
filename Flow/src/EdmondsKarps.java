@@ -1,14 +1,10 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.lang.Math;
 
 public class EdmondsKarps {
 	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
 	private int v, s, t, totflow;
-	
 	
 	public EdmondsKarps () {
 		br = new BipRed();
@@ -17,34 +13,7 @@ public class EdmondsKarps {
 		s = br.s;
 		t = br.t;
 		
-//		int u, v, c, f, revf, cf; c[u,v] �r kapaciteten fr�n u till v, f[u,v] �r fl�det, cf[u,v] �r restkapaciteten.
-		ArrayList<Edge> edgeList, p;
-		Edge rev;
-		
-		for (int i = 1; i <= v; i++) {//	for varje kant i i grafen do
-			edgeList = edges.get(i);
-			
-			for(Edge e : edgeList) {
-//			    f[u,v]:=0; f[v,u]:=0 
-				e.setFlow(0);
-				rev = e.getRev();
-				rev.setFlow(0);
-				
-//			    cf[u,v]:=c[u,v]; cf[v,u]:=c[v,u]]
-				rev.setCap(e.getCap());
-//				edge.setCap(edge.getRev().getCap()); // redundant
-			} 
-		}
-		bfs();
-//		while det finns en stig p fr�n s till t i restfl�desgrafen do 
-//		while (p) { //TODO: get p through BFS, makes this Edmonds-Karps algorithm
-//		    r:=min(cf[u,v]: (u,v) ing�r i p) 
-//			int r = min(edge.getRev().getCap(), anotherint);
-//		    for varje kant (u,v) i p do 
-//		         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
-//		         cf[u,v]:=c[u,v] - f[u,v]; cf[v,u]:=c[v,u] - f[v,u]
-//		}
-		
+		totflow = bfs();
 	}
 	
 //	Ford-Fulkersons algoritm i pseudokod
@@ -60,19 +29,10 @@ public class EdmondsKarps {
 //	         f[u,v]:=f[u,v]+r; f[v,u]:= -f[u,v] 
 //	         cf[u,v]:=c[u,v] - f[u,v]; cf[v,u]:=c[v,u] - f[v,u]
 	
-	/**
-	 * ShortestPath from one specified node to another.
-	 * traverses the graph with a bfs and builds a previous nodes array.
-	 * which is then used to create a arrayList for the shortest path
-	 * returns an empty array if there's no path.
-	 * 
-	 * @param g graph to traverse
-	 * @param from starting node
-	 * @param to end node
-	 * @return ArrayList containing the shortest path
-	 */
-	private void bfs() {
+	private int bfs() {
+		int maxFlow = 0;
 		int b = -1;
+		int minCap = Integer.MAX_VALUE;
 		HashMap<Integer, ArrayList<Edge>> residual = new HashMap<> (edges.size());
 		
 		ArrayList<Edge> current = null;
@@ -80,21 +40,26 @@ public class EdmondsKarps {
 		for (int i = s; i <= t; i++) {
 			if (edges.get(i) != null) {
 				current = edges.get(i);
-				for(Edge e : current) {
+				for (Edge e : current) {
 					b = e.b;
 					if (residual.get(b) == null)
 						residual.put(b, new ArrayList<Edge> ());
+					minCap = minCap < e.rev.cap ? minCap : e.rev.cap;
+					e.rev.setCap(minCap);
 					residual.get(b).add(e.rev);
 				}
 			}
 		}
-		int mf = Integer.MAX_VALUE;
-		// Hitta minimum flödet genom residual grafen.
-		for (int i = t; i != s; i++) {
-			current =  residual.get(i);
-			for (Edge e : current) {
-				mf = Math.min(mf, e.cap);
+		for (int i = t; i >= s; i--) {
+			if (residual.get(i) != null) {
+				current = residual.get(i);
+				for(Edge r : current) {
+					r.flow += minCap;
+					r.rev.flow -= minCap;
+				}
+				maxFlow =+ minCap;
 			}
 		}
+		return maxFlow;
 	}
 }

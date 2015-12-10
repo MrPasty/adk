@@ -2,9 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class EdmondsKarps {
+	private Kattio io;
 	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
-	private int v, s, t, totflow;
+	private int v, s, t, e, totflow;
 	
 	public EdmondsKarps () {
 		br = new BipRed();
@@ -12,8 +13,10 @@ public class EdmondsKarps {
 		v = br.v;
 		s = br.s;
 		t = br.t;
+		e = br.e;
 		
 		totflow = bfs();
+		
 	}
 	
 //	Ford-Fulkersons algoritm i pseudokod
@@ -61,5 +64,27 @@ public class EdmondsKarps {
 			}
 		}
 		return maxFlow;
+	}
+	
+	public void writeMaxFlowGraph() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(v + "\n");
+		sb.append(s + " " + t + " " + totflow + "\n");
+		sb.append(e + "\n");
+		for (int i = s; i <= t; i++) {
+			if (edges.get(i) != null) {
+				ArrayList<Edge> l = edges.get(i);
+				for (Edge edge : l)
+					sb.append(edge.toString() + " " + edge.flow + "\n");
+			}
+		}
+		String output = sb.toString();
+		
+		// Skriv ut antal hörn och kanter samt källa och sänka
+		io.println(output);
+		
+		// Var noggrann med att flusha utdata när flödesgrafen skrivits ut!
+		io.flush();
 	}
 }

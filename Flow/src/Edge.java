@@ -25,7 +25,7 @@ public class Edge {
 	}
 	
 	public String toString () {
-		return (a + " " + b + " " + cap);
+		return (a + " " + b);
 	}
 	
 	public int getA () {

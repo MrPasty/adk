@@ -56,7 +56,7 @@ public class BipRed {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l)
-					sb.append(edge.toString() + "\n");
+					sb.append(edge.toString() + " " + edge.cap + "\n");
 			}
 		}
 		for (int i = 1; i <= v; i++) {
@@ -125,7 +125,7 @@ public class BipRed {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l)
-					sb.append(edge.toString() + "\n");
+					sb.append(edge.toString() + " " + edge.cap + "\n");
 			}
 		}
 		String output = sb.toString();

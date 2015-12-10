@@ -81,22 +81,20 @@ public class EdmondsKarps {
 			if (edges.get(i) != null) {
 				current = edges.get(i);
 				for(Edge e : current) {
-					b = e.getB ();
+					b = e.b;
 					if (residual.get(b) == null)
 						residual.put(b, new ArrayList<Edge> ());
-					residual.get(b).add(e.getRev());
+					residual.get(b).add(e.rev);
 				}
 			}
 		}
-		//needed?
-//		ArrayList<Integer> prevs = new ArrayList<Integer>();
-//		if(visited[t]) {
-//			while(previous[t] != null) {
-//				prevs.add(0, t);
-//				t = previous[t];
-//			}
-//			prevs.add(0, start);
-//		}
-//		return prevs;
+		int mf = Integer.MAX_VALUE;
+		// Hitta minimum flödet genom residual grafen.
+		for (int i = t; i != s; i++) {
+			current =  residual.get(i);
+			for (Edge e : current) {
+				mf = Math.min(mf, e.cap);
+			}
+		}
 	}
 }

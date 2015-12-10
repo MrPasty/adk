@@ -1,7 +1,7 @@
 
 public class Edge {
-	private int a, b, cap, flow;
-	private Edge rev;
+	public int a, b, cap, flow;
+	public Edge rev;
 	
 	public Edge (int a, int b) {
 		this(a, b, 1);

@@ -105,10 +105,13 @@ public class BipRed {
 				io.getInt();
 				continue;
 				}
-			int f = io.getInt();
+			int j = io.getInt();
 			if (edges.get(a) == null)
 				edges.put(a, new ArrayList<Edge>());
-			edges.get(a).add(new Edge(a, b, 0, f));
+			if (readMaxFlow) {
+				edges.get(a).add(new Edge(a, b, 0, j));
+			} else 
+				edges.get(a).add(new Edge(a, b, j));
 		}
 		return edges;
 	}

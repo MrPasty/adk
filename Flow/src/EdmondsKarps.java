@@ -5,9 +5,11 @@ public class EdmondsKarps {
 	private Kattio io;
 	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
+	HashMap<Integer, ArrayList<Edge>> residual;
 	private int v, s, t, e, totflow;
 	
 	public EdmondsKarps () {
+		io = new Kattio(System.in, System.out);
 		br = new BipRed();
 		edges = br.readMaxFlowSolution(false);
 		v = br.v;
@@ -16,7 +18,7 @@ public class EdmondsKarps {
 		e = br.e;
 		
 		totflow = bfs();
-		
+		writeMaxFlowGraph();
 	}
 	
 //	Ford-Fulkersons algoritm i pseudokod
@@ -36,7 +38,7 @@ public class EdmondsKarps {
 		int maxFlow = 0;
 		int b = -1;
 		int minCap = Integer.MAX_VALUE;
-		HashMap<Integer, ArrayList<Edge>> residual = new HashMap<> (edges.size());
+		residual = new HashMap<> (edges.size());
 		
 		ArrayList<Edge> current = null;
 	
@@ -48,7 +50,7 @@ public class EdmondsKarps {
 					if (residual.get(b) == null)
 						residual.put(b, new ArrayList<Edge> ());
 					minCap = minCap < e.rev.cap ? minCap : e.rev.cap;
-					e.rev.setCap(minCap);
+					e.rev.cap = minCap;
 					residual.get(b).add(e.rev);
 				}
 			}

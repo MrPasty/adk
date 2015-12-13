@@ -93,7 +93,7 @@ public class BipRed {
 		e = io.getInt();
 		edges = new HashMap<Integer, ArrayList<Edge>>();
 
-		for (int i = 0; i < e; ++i) {
+		for (int i = 1; i <= e; ++i) {
 			int a = io.getInt();
 			if (readMaxFlow && (a == s || a == t)) {	// exkludera alla kanter från källan / till sänkan
 				io.getInt();
@@ -125,7 +125,7 @@ public class BipRed {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l)
-					sb.append(edge.toString() + " " + edge.cap + "\n");
+					sb.append(edge.toString() + "\n");
 			}
 		}
 		String output = sb.toString();

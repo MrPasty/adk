@@ -38,7 +38,7 @@ public class EdmondsKarps {
 		int maxFlow = 0;
 		int b = -1;
 		int minCap = Integer.MAX_VALUE;
-		residual = new HashMap<> (edges.size());
+		residual = new HashMap<>();
 		
 		ArrayList<Edge> current = null;
 	
@@ -50,22 +50,28 @@ public class EdmondsKarps {
 					if (residual.get(b) == null)
 						residual.put(b, new ArrayList<Edge> ());
 					minCap = minCap < e.rev.cap ? minCap : e.rev.cap;
-					e.rev.cap = minCap;
+//					e.flow += minCap; //f[u,v]:=f[u,v]+r
 					residual.get(b).add(e.rev);
 				}
 			}
 		}
-		for (int i = t; i >= s; i--) {
-			if (residual.get(i) != null) {
-				current = residual.get(i);
-				for(Edge r : current) {
-					r.flow += minCap;
-					r.rev.flow -= minCap;
+		while (true) {
+			for (int i = t; i >= s; i--) {
+				if (residual.get(i) != null) {
+					current = residual.get(i);
+					for(Edge r : current) {
+						while (r.cap > 0) {
+							r.rev.flow += minCap; //f[u,v]:=f[u,v]+r
+							r.flow = -r.rev.flow; //f[v,u]:= -f[u,v]
+							r.cap = r.rev.cap - r.rev.flow; //cf[u,v]:=c[u,v] - f[u,v]
+							r.rev.cap = r.cap - r.flow; //cf[v,u]:=c[v,u] - f[v,u]
+						}
+					}
+					maxFlow += minCap;
 				}
-				maxFlow =+ minCap;
 			}
+			return maxFlow;
 		}
-		return maxFlow;
 	}
 	
 	public void writeMaxFlowGraph() {

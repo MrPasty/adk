@@ -19,9 +19,8 @@ public class Edge {
 		this.a = a;
 		this.b = b;
 		this.cap = cap;
-		flow = flow > cap ? cap : flow;
-		this.flow = flow;
-		this.rev = rev == null ? new Edge(b, a, 0, flow, this) : rev;
+		this.flow = flow > cap ? cap : flow;
+		this.rev = rev == null ? new Edge(b, a, this.cap - this.flow, -this.flow, this) : rev;
 	}
 	
 	public String toString () {

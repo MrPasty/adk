@@ -12,7 +12,7 @@ public class FileMaker {
 	private int size = Hasher.hash("ööö");
 	private int[] indexArray = new int[size+1];
 	private int[] endArray = new int[size+1];
-	private int byteSize = 8;
+	public final int byteSize = 8;
 	private int padding = 45;
 	private byte[] longBytes = new byte[byteSize];
 	private byte[] padded = new byte[padding];
@@ -22,7 +22,7 @@ public class FileMaker {
 	private BufferedReader br;
 	
 	public void setup() throws IOException{
-		tokens = new FileInputStream("/var/tmp/ut");
+		tokens = new FileInputStream("ut");
 		indexWriter = new FileOutputStream(new File("/var/tmp/index"));
 		occurenceWriter = new FileOutputStream("/var/tmp/occurences");
 		ir = new InputStreamReader(tokens, "ISO-8859-1");

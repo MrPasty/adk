@@ -22,7 +22,7 @@ public class Edge {
 		this.cap = cap;
 //		flow = flow > cap ? cap : flow;
 		this.flow = flow;
-		this.rev = rev == null ? new Edge(b, a, this.cap - flow, -flow, this) : rev;
+		this.rev = rev == null ? new Edge(b, a, 0, flow, this) : rev;
 	}
 	
 	public String toString () {

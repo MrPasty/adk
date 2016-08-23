@@ -83,7 +83,7 @@ public class BipRed {
 
 	public HashMap<Integer, ArrayList<Edge>> readMaxFlowSolution(boolean readMaxFlow) {
 		// Läs in antal hörn, kanter, källa, sänka, och totalt flöde
-		// (Antal hörn, källa och sänka borde vara samma som vi i grafen vi
+		// (Antal hörn, källa och sänka borde vara samma som i grafen vi
 		// skickade iväg)
 		v = io.getInt();
 		s = io.getInt();
@@ -111,7 +111,7 @@ public class BipRed {
 			if (readMaxFlow) {
 				edges.get(a).add(new Edge(a, b, 0, j));
 			} else 
-				edges.get(a).add(new Edge(a, b, j));
+				edges.get(a).add(new Edge(a, b, j, 0));
 		}
 		return edges;
 	}
@@ -155,8 +155,9 @@ public class BipRed {
 	}
 
 	public static void main(String args[]) {
-		BipRed br = new BipRed();
-		br.Reduce();
+        EdmondsKarps ek = new EdmondsKarps();
+		//BipRed br = new BipRed();
+		//br.Reduce();
 	}
 }
 

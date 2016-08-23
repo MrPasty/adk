@@ -14,13 +14,15 @@ public class Finder {
 	private int[] indexArray;
 	private int[] endArray;
 	private String w;
-	
+	private int BYTE_SIZE;
+
 	public Finder () throws FileNotFoundException, IOException, ClassNotFoundException {
-			inputStream = new ObjectInputStream(new FileInputStream("indexArrayFile"));
-			indexArray = (int[])inputStream.readObject();
-			endStream = new ObjectInputStream(new FileInputStream("endArrayFile"));
-			endArray = (int[])endStream.readObject();
-			corpus = new RandomAccessFile("korpus", "r");
+        BYTE_SIZE = FileMaker.byteSize;
+		inputStream = new ObjectInputStream(new FileInputStream("indexArrayFile"));
+		indexArray = (int[])inputStream.readObject();
+		endStream = new ObjectInputStream(new FileInputStream("endArrayFile"));
+		endArray = (int[])endStream.readObject();
+		corpus = new RandomAccessFile("korpus", "r");
 	}
 
 	/**

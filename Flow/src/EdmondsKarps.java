@@ -1,12 +1,15 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class EdmondsKarps {
 	private Kattio io;
 	BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
 	HashMap<Integer, ArrayList<Edge>> residual;
-	private int v, s, t, e, totflow;
+    Edge[] parents;
+	private int v, s, t, e, m, totflow;
 	
 	public EdmondsKarps () {
 		io = new Kattio(System.in, System.out);
@@ -16,10 +19,54 @@ public class EdmondsKarps {
 		s = br.s;
 		t = br.t;
 		e = br.e;
-		
-		totflow = bfs();
+
+        ek();
 		writeMaxFlowGraph();
 	}
+
+    public void ek() {
+        while(true) {
+            System.out.println("ek");
+            search();
+            if(m == 0) // no more flow to add
+                break;
+            totflow += m;
+            int i = t;
+            while (i != s){
+                Edge edge = parents[i];
+                edge.flow += m;
+                edge.cap = -edge.flow;
+                i = edge.getA();
+            }
+        }
+    }
+
+    public void search() {
+        parents = new Edge[v + 1];
+        int[] cap = new int[parents.length];
+        cap[s] = Integer.MAX_VALUE;
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(s);
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            for (Edge edge : edges.get(u)) {
+                int res = edge.cap - edge.flow;
+                if (res > 0 && parents[edge.getB()] == null && edge.getB() != s) {
+                    parents[edge.getB()] = edge;
+                    cap[edge.getB()] = Math.min(cap[edge.getA()], res);
+                    if (edge.getB() != t) {
+                        q.add(edge.getB());
+                    } else {
+                        m = cap[t];
+                        return;
+                    }
+
+                }
+            }
+        }
+        m = 0;
+    }
 	
 //	Ford-Fulkersons algoritm i pseudokod
 //
@@ -39,9 +86,10 @@ public class EdmondsKarps {
 		int b = -1;
 		int minCap = Integer.MAX_VALUE;
 		residual = new HashMap<>();
-		
+        Queue<Integer> q = new LinkedList<Integer>();
+
 		ArrayList<Edge> current = null;
-	
+
 		for (int i = s; i <= t; i++) {
 			if (edges.get(i) != null) {
 				current = edges.get(i);
@@ -55,7 +103,9 @@ public class EdmondsKarps {
 				}
 			}
 		}
-		while (true) {
+        q.add(s);
+		while (!q.isEmpty()) {
+            int u = q.poll();
 			for (int i = t; i >= s; i--) {
 				if (residual.get(i) != null) {
 					current = residual.get(i);
@@ -70,23 +120,27 @@ public class EdmondsKarps {
 					maxFlow += minCap;
 				}
 			}
-			return maxFlow;
 		}
+        return maxFlow;
 	}
 	
 	public void writeMaxFlowGraph() {
 		StringBuilder sb = new StringBuilder();
-		
-		sb.append(v + "\n");
-		sb.append(s + " " + t + " " + totflow + "\n");
-		sb.append(e + "\n");
-		for (int i = s; i <= t; i++) {
+		e = 0;
+		io.println(v);
+		io.println(s + " " + t + " " + totflow);
+		for (int i = s; i <= edges.size() + 1; i++) {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
-				for (Edge edge : l)
-					sb.append(edge.toString() + " " + edge.flow + "\n");
+				for (Edge edge : l) {
+                    if (edge.flow > 0) {
+                        sb.append(edge.toString() + " " + edge.flow + "\n");
+                        e++;
+                    }
+                }
 			}
 		}
+        io.println(e);
 		String output = sb.toString();
 		
 		// Skriv ut antal hörn och kanter samt källa och sänka

@@ -25,7 +25,8 @@ public class EdmondsKarps {
 	}
 
     public void ek() {
-    	
+    	// GOAL: return max flow
+    	// loop bfs to find minimum capacity of residual path
     }
 	
 //	Ford-Fulkersons algoritm i pseudokod

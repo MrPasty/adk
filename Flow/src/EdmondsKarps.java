@@ -15,10 +15,10 @@ public class EdmondsKarps {
 		io = new Kattio(System.in, System.out);
 		br = new BipRed();
 		edges = br.readMaxFlowSolution(false);
-		v = br.v;
-		s = br.s;
-		t = br.t;
-		e = br.e;
+		v = br.v; // antal hörn
+		s = br.s; // källa
+		t = br.t; // sänka
+		e = br.e; // antal kanter
 
         ek();
 		writeMaxFlowGraph();

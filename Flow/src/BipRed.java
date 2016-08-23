@@ -111,7 +111,7 @@ public class BipRed {
 			if (readMaxFlow) {
 				edges.get(a).add(new Edge(a, b, 0, j));
 			} else 
-				edges.get(a).add(new Edge(a, b, j, 0));
+				edges.get(a).add(new Edge(a, b, j));
 		}
 		return edges;
 	}
@@ -155,9 +155,9 @@ public class BipRed {
 	}
 
 	public static void main(String args[]) {
-        EdmondsKarps ek = new EdmondsKarps();
-		//BipRed br = new BipRed();
-		//br.Reduce();
+		EdmondsKarps ek = new EdmondsKarps();
+//		BipRed br = new BipRed();
+//		br.Reduce();
 	}
 }
 

@@ -20,7 +20,7 @@ public class Edge {
 		this.b = b;
 		this.cap = cap;
 		this.flow = flow > cap ? cap : flow;
-		this.rev = rev == null ? new Edge(b, a, this.cap - this.flow, -this.flow, this) : rev;
+		this.rev = rev == null ? new Edge(b, a, 0, 0, this) : rev; // do not set residual cap and flow at instantiation
 	}
 	
 	public String toString () {

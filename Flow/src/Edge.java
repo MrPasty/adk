@@ -54,4 +54,13 @@ public class Edge {
 	public void setFlow (int flow) {
 		this.flow = flow;
 	}
+	
+	public int getResidual () {
+		return cap - flow;
+	}
+	
+	public void setResidual (int cap, int flow) {
+		this.rev.cap = cap - flow;
+		this.rev.flow = -flow;
+	}
 }

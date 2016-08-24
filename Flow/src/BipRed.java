@@ -15,6 +15,7 @@ public class BipRed {
 	private Kattio io;
 	private final boolean debug = false;
 	private HashMap<Integer, ArrayList<Edge>> edges;
+	private HashMap<Integer, ArrayList<Edge>> residual;
 
 	public int x, y, e, v, s, t, totflow;
 
@@ -29,6 +30,7 @@ public class BipRed {
 		e = io.getInt();
 		v = x + y;
 		edges = new HashMap<Integer, ArrayList<Edge>>();
+		residual = new HashMap<Integer, ArrayList<Edge>>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");
@@ -37,9 +39,13 @@ public class BipRed {
 		for (int i = 0; i < e; i++) {
 			int a = io.getInt();
 			int b = io.getInt();
+			Edge e = new Edge(a, b);
 			if (edges.get(a) == null)
 				edges.put(a, new ArrayList<Edge>());
-			edges.get(a).add(new Edge(a, b));
+			edges.get(a).add(e);
+			if (edges.get(b) == null)
+				edges.put(b, new ArrayList<Edge>());
+			edges.get(b).add(e.getRev());
 		}
 		return edges;
 	}
@@ -114,6 +120,10 @@ public class BipRed {
 				edges.get(a).add(new Edge(a, b, j));
 		}
 		return edges;
+	}
+
+	public HashMap<Integer, ArrayList<Edge>> getResidual () {
+		return residual;
 	}
 
 

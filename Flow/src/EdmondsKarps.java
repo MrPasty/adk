@@ -15,6 +15,7 @@ public class EdmondsKarps {
 		io = new Kattio(System.in, System.out);
 		br = new BipRed();
 		edges = br.readMaxFlowSolution(false); // false because we need to find max flow
+		residual = br.getResidual();
 		v = br.v; // antal hörn
 		s = br.s; // källa
 		t = br.t; // sänka
@@ -27,7 +28,20 @@ public class EdmondsKarps {
     public void ek() {
     	// GOAL: return max flow
     	// loop bfs to find minimum capacity of residual path
+		while (true){
+			bfs ();
+		}
     }
+
+	public void bfs () {
+        Queue<Integer> q = new LinkedList<Integer>();
+		q.add(s);
+		if (q.isEmpty()) return;
+		u = q.poll();
+			for (Edge edge : edges.get(u))
+				if 
+
+	}
 	
 //	Ford-Fulkersons algoritm i pseudokod
 //

@@ -45,10 +45,16 @@ public class EdmondsKarps {
 				if (res > 0 && parents[edge.getB()] == null && edge.getB() != s) {
 					parents[edge.getB()] = edge;
 					cap[edge.getB()] = Math.min(cap[edge.getA ()], res);
+					if (edge.getB() != t)
+						q.add(edge.getB());
+					else {
+						m = cap[t];
+						return;
+					}
 				}
 			}
 		}
-
+		m = 0;
 	}
 	
 //	Ford-Fulkersons algoritm i pseudokod

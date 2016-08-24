@@ -5,10 +5,10 @@ import java.util.Queue;
 
 public class EdmondsKarps {
 	private Kattio io;
-	BipRed br;
+	private BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
-	HashMap<Integer, ArrayList<Edge>> residual;
-    Edge[] parents;
+	private HashMap<Integer, ArrayList<Edge>> residual;
+    private Edge[] parents;
 	private int v, s, t, e, m, totflow;
 	
 	public EdmondsKarps () {
@@ -34,12 +34,20 @@ public class EdmondsKarps {
     }
 
 	public void bfs () {
+        int[] cap = new int[edges.size()];
+        cap[s] = Integer.MAX_VALUE;
         Queue<Integer> q = new LinkedList<Integer>();
-		q.add(s);
-		if (q.isEmpty()) return;
-		u = q.poll();
-			for (Edge edge : edges.get(u))
-				if 
+        q.add(s);
+		while (!q.isEmpty()) {
+			int currentNode = q.poll();
+			for (Edge edge : edges.get(currentNode)) {
+				int res = edge.getResidual();
+				if (res > 0 && parents[edge.getB()] == null && edge.getB() != s) {
+					parents[edge.getB()] = edge;
+					cap[edge.getB()] = Math.min(cap[edge.getA ()], res);
+				}
+			}
+		}
 
 	}
 	

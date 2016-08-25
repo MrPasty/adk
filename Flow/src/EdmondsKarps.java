@@ -40,8 +40,8 @@ public class EdmondsKarps {
 	            edge.rev.flow = edge.rev.flow - df;
 				if (edges.get(edge.b) == null)
 					edges.put(edge.b, new ArrayList<Edge>());
-				edges.get(edge.b).add(edge.rev);
-                System.out.println(edge.rev + " isRev: " + edge.rev.isRev);
+                if (edge.rev.isRev)
+				    edges.get(edge.b).add(edge.rev);
 			}
 			totflow = totflow + df;
 		}
@@ -56,8 +56,7 @@ public class EdmondsKarps {
         
 		while (!q.isEmpty()) {
 			int currentNode = q.poll();
-//			if (currentNode == t)
-//					return;
+            if (!edges.containsKey(currentNode)) break;
 			for (Edge edge : edges.get(currentNode)) {
 //				int res = edge.getResidual();
 				if (pred[edge.b] == null && edge.b != s && edge.cap > edge.flow) {

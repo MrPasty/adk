@@ -35,27 +35,28 @@ public class EdmondsKarps {
 			while (i != s) {
 				Edge edge = parents[i];
 				edge.flow += m;
-				edge.setResidual(m);
-				i = edge.getA();
+				edge.rev.flow = -edge.flow;
+				i = edge.a;
 			}
 		}
     }
 
 	public void bfs () {
 		parents = new Edge[v + 1];
-        int[] cap = new int[v + 1];
+        int[] cap = new int[parents.length];
         cap[s] = Integer.MAX_VALUE;
         Queue<Integer> q = new LinkedList<Integer>();
         q.add(s);
+        
 		while (!q.isEmpty()) {
 			int currentNode = q.poll();
 			for (Edge edge : edges.get(currentNode)) {
 				int res = edge.getResidual();
-				if (res > 0 && parents[edge.getB()] == null && edge.getB() != s) {
-					parents[edge.getB()] = edge;
-					cap[edge.getB()] = Math.min(cap[edge.getA ()], res);
-					if (edge.getB() != t)
-						q.add(edge.getB());
+				if (res > 0 && parents[edge.b] == null && edge.b != s) {
+					parents[edge.b] = edge;
+					cap[edge.b] = Math.min(cap[edge.a], res);
+					if (edge.b != t)
+						q.add(edge.b);
 					else {
 						m = cap[t];
 						return;

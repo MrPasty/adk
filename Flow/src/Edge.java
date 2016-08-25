@@ -19,8 +19,9 @@ public class Edge {
 		this.a = a;
 		this.b = b;
 		this.cap = cap;
+//		this.flow = flow;
 		this.flow = flow > cap ? cap : flow;
-		this.rev = rev == null ? new Edge(b, a, 0, 0, this) : rev; // do not set residual cap and flow at instantiation
+		this.rev = rev == null ? new Edge(b, a, 0, flow, this) : rev; // do not set residual cap and flow at instantiation
 	}
 	
 	public String toString () {
@@ -59,8 +60,7 @@ public class Edge {
 		return cap - flow;
 	}
 	
-	public void setResidual (int cap, int flow) {
-		this.rev.cap = cap - flow;
-		this.rev.flow = -flow;
+	public void setResidual (int flow) {
+		this.rev.flow = this.rev.cap - flow;
 	}
 }

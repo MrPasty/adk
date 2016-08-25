@@ -26,15 +26,24 @@ public class EdmondsKarps {
 	}
 
     public void ek() {
-    	// GOAL: return max flow
-    	// loop bfs to find minimum capacity of residual path
 		while (true){
 			bfs ();
+			if (m == 0)
+				break;
+			totflow += m;
+			int i = t;
+			while (i != s) {
+				Edge edge = parents[i];
+				edge.flow += m;
+				edge.setResidual(m);
+				i = edge.getA();
+			}
 		}
     }
 
 	public void bfs () {
-        int[] cap = new int[edges.size()];
+		parents = new Edge[v + 1];
+        int[] cap = new int[v + 1];
         cap[s] = Integer.MAX_VALUE;
         Queue<Integer> q = new LinkedList<Integer>();
         q.add(s);

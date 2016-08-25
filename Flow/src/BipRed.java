@@ -30,7 +30,6 @@ public class BipRed {
 		e = io.getInt();
 		v = x + y;
 		edges = new HashMap<Integer, ArrayList<Edge>>();
-		residual = new HashMap<Integer, ArrayList<Edge>>();
 		
 		if (debug)
 			System.out.println("\n x: " + x + ", y: " + y + ", e: " + e + ", v: " + v + "\n");

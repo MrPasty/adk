@@ -7,15 +7,13 @@ public class EdmondsKarps {
 	private Kattio io;
 	private BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
-	private HashMap<Integer, ArrayList<Edge>> residual;
     private Edge[] pred;
-	private int v, s, t, e, m, totflow;
+	private int v, s, t, e, totflow;
 	
 	public EdmondsKarps () {
 		io = new Kattio(System.in, System.out);
 		br = new BipRed();
 		edges = br.readMaxFlowSolution(false); // false because we need to find max flow
-		residual = br.getResidual();
 		v = br.v; // antal hörn
 		s = br.s; // källa
 		t = br.t; // sänka
@@ -36,21 +34,21 @@ public class EdmondsKarps {
 	            df = Math.min(df, edge.cap - edge.flow);
 	        
 			for (Edge edge = pred[t]; edge != null; edge = pred[edge.a]) {
-				edge.flow  = edge.flow + df;
-	            edge.rev.flow = edge.rev.flow - df;
-				if (edges.get(edge.b) == null)
-					edges.put(edge.b, new ArrayList<Edge>());
-                if (edge.rev.isRev)
-				    edges.get(edge.b).add(edge.rev);
+				edge.flow += df;
+                // add flow to reverse edge and put it in the graph
+	            edge.rev.flow -= df;
+                if (edge.rev.isRev) {
+                    if (edges.get(edge.b) == null)
+                        edges.put(edge.b, new ArrayList<Edge>());
+                    edges.get(edge.b).add(edge.rev);
+                }
 			}
-			totflow = totflow + df;
+			totflow += df;
 		}
     }
 
 	public void bfs () {
 		pred = new Edge[v + 1];
-//        int[] cap = new int[parents.length];
-//        cap[s] = Integer.MAX_VALUE;
         Queue<Integer> q = new LinkedList<Integer>();
         q.add(s);
         
@@ -58,12 +56,9 @@ public class EdmondsKarps {
 			int currentNode = q.poll();
             if (!edges.containsKey(currentNode)) break;
 			for (Edge edge : edges.get(currentNode)) {
-//				int res = edge.getResidual();
 				if (pred[edge.b] == null && edge.b != s && edge.cap > edge.flow) {
 					pred[edge.b] = edge;
-//					cap[edge.b] = Math.min(cap[edge.a], res);
-					if (edge.b != t)
-						q.add(edge.b);
+                    q.add(edge.b);
 				}
 			}
 		}
@@ -87,7 +82,7 @@ public class EdmondsKarps {
 		e = 0;
 		io.println(v);
 		io.println(s + " " + t + " " + totflow);
-		for (int i = s; i <= edges.size() + 1; i++) {
+		for (int i = 1; i <= edges.size() + 1; i++) {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
 				for (Edge edge : l) {

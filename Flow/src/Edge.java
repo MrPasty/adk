@@ -2,6 +2,7 @@
 public class Edge {
 	public int a, b, cap, flow;
 	public Edge rev;
+	public boolean isRev;
 	
 	public Edge (int a, int b) {
 		this(a, b, 1);
@@ -12,16 +13,16 @@ public class Edge {
 	}
 	
 	public Edge (int a, int b, int cap, int flow) {
-		this(a, b, cap, flow, null);
+		this(a, b, cap, flow, null, false);
 	}
 	
-	public Edge (int a, int b, int cap, int flow, Edge rev) {
+	public Edge (int a, int b, int cap, int flow, Edge rev, boolean isRev) {
 		this.a = a;
 		this.b = b;
 		this.cap = cap;
-//		this.flow = flow;
 		this.flow = flow > cap ? cap : flow;
-		this.rev = rev == null ? new Edge(b, a, 0, flow, this) : rev; // do not set residual cap and flow at instantiation
+		this.rev = rev == null ? new Edge(b, a, 0, flow, this, true) : rev; // do not set residual cap and flow at instantiation
+		this.isRev = isRev;
 	}
 	
 	public String toString () {

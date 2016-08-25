@@ -38,19 +38,12 @@ public class EdmondsKarps {
 			for (Edge edge = pred[t]; edge != null; edge = pred[edge.a]) {
 				edge.flow  = edge.flow + df;
 	            edge.rev.flow = edge.rev.flow - df;
+				if (edges.get(edge.b) == null)
+					edges.put(edge.b, new ArrayList<Edge>());
+				edges.get(edge.b).add(edge.rev);
+                System.out.println(edge.rev + " isRev: " + edge.rev.isRev);
 			}
 			totflow = totflow + df;
-	        
-//			if (m == 0)
-//				break;
-//			totflow += m;
-//			int i = t;
-//			while (i != s) {
-//				Edge edge = parents[i];
-//				edge.flow += m;
-//				edge.rev.flow = -edge.flow;
-//				i = edge.a;
-//			}
 		}
     }
 
@@ -72,11 +65,6 @@ public class EdmondsKarps {
 //					cap[edge.b] = Math.min(cap[edge.a], res);
 					if (edge.b != t)
 						q.add(edge.b);
-					else {
-//						m = cap[t];
-//						return;
-						break;
-					}
 				}
 			}
 		}

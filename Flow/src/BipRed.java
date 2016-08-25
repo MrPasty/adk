@@ -132,13 +132,14 @@ public class BipRed {
 		StringBuilder sb = new StringBuilder();
 		sb.append(x + " " + y + "\n");
 		
-		e = edges.size(); // ta bort kanter till/från källa och sänka
+		//e = edges.size(); // ta bort kanter till/från källa och sänka
 		sb.append(e + "\n");
 		for (int i = 1; i <= v; i++) {
 			if (edges.get(i) != null) {
 				ArrayList<Edge> l = edges.get(i);
-				for (Edge edge : l)
+				for (Edge edge : l) {
 					sb.append(edge.toString() + "\n");
+				}
 			}
 		}
 		String output = sb.toString();

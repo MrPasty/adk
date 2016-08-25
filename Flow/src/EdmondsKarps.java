@@ -8,7 +8,7 @@ public class EdmondsKarps {
 	private BipRed br;
 	private HashMap<Integer, ArrayList<Edge>> edges;
 	private HashMap<Integer, ArrayList<Edge>> residual;
-    private Edge[] parents;
+    private Edge[] pred;
 	private int v, s, t, e, m, totflow;
 	
 	public EdmondsKarps () {
@@ -28,43 +28,58 @@ public class EdmondsKarps {
     public void ek() {
 		while (true){
 			bfs ();
-			if (m == 0)
+			if (pred[t] == null)
 				break;
-			totflow += m;
-			int i = t;
-			while (i != s) {
-				Edge edge = parents[i];
-				edge.flow += m;
-				edge.rev.flow = -edge.flow;
-				i = edge.a;
+			
+			int df = Integer.MAX_VALUE;
+			for (Edge edge = pred[t]; edge != null; edge = pred[edge.a])
+	            df = Math.min(df, edge.cap - edge.flow);
+	        
+			for (Edge edge = pred[t]; edge != null; edge = pred[edge.a]) {
+				edge.flow  = edge.flow + df;
+	            edge.rev.flow = edge.rev.flow - df;
 			}
+			totflow = totflow + df;
+	        
+//			if (m == 0)
+//				break;
+//			totflow += m;
+//			int i = t;
+//			while (i != s) {
+//				Edge edge = parents[i];
+//				edge.flow += m;
+//				edge.rev.flow = -edge.flow;
+//				i = edge.a;
+//			}
 		}
     }
 
 	public void bfs () {
-		parents = new Edge[v + 1];
-        int[] cap = new int[parents.length];
-        cap[s] = Integer.MAX_VALUE;
+		pred = new Edge[v + 1];
+//        int[] cap = new int[parents.length];
+//        cap[s] = Integer.MAX_VALUE;
         Queue<Integer> q = new LinkedList<Integer>();
         q.add(s);
         
 		while (!q.isEmpty()) {
 			int currentNode = q.poll();
+//			if (currentNode == t)
+//					return;
 			for (Edge edge : edges.get(currentNode)) {
-				int res = edge.getResidual();
-				if (res > 0 && parents[edge.b] == null && edge.b != s) {
-					parents[edge.b] = edge;
-					cap[edge.b] = Math.min(cap[edge.a], res);
+//				int res = edge.getResidual();
+				if (pred[edge.b] == null && edge.b != s && edge.cap > edge.flow) {
+					pred[edge.b] = edge;
+//					cap[edge.b] = Math.min(cap[edge.a], res);
 					if (edge.b != t)
 						q.add(edge.b);
 					else {
-						m = cap[t];
-						return;
+//						m = cap[t];
+//						return;
+						break;
 					}
 				}
 			}
 		}
-		m = 0;
 	}
 	
 //	Ford-Fulkersons algoritm i pseudokod
